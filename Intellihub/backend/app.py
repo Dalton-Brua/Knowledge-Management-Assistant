@@ -14,10 +14,5 @@ def createUser():
             "pass": "pass1",
             "role": "user"
         }
-    ##result = collection.insert_one(post)
-    ##return 'Inserted document with id: {}'.format(result.inserted_id)
-    return {
-            "name": "John Doe",
-            "pass": "pass1",
-            "role": "user"
-        }
+    result = collection.insert_one(post)
+    return 'Inserted document with id: {}'.format(result.inserted_id)
