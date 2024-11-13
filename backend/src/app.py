@@ -1,26 +1,21 @@
-from flask import Flask, request, jsonify;
-from flask_pymongo import PyMongo, ObjectId;
-from flask_cors import CORS;
+from flask import Flask, request, jsonify
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost/Intellihub'
-mongo = PyMongo(app)
+client = MongoClient("mongodb://localhost:27017/")
 
-CORS(app)
-db = mongo.db.users
-#@app.route("/")
-#def index():
-#    return '<h1>Hello World</h1'
+db = client['KMA_DB']
 
-@app.route('/users', methods=['POST'])
+@app.route('/data')
 def createUser():
-    id = db.insert({
-        'name': request.json['name'],
-        'email': request.json['email'],
-        'contact': request.json['contact'],
-        'address': request.json['address']
-    })
-    return jsonify({'id': str(ObjectId(id)), 'msg': "User Added Successfully"})
+    collection = db.userInformation
+    post = {
+            "name": "Test Two",
+            "pass": "pass2",
+            "role": "user"
+        }
+    result = collection.insert_one(post)
+    return 'Inserted document with id: {}'.format(result.inserted_id)
 
 if __name__ == '__main__':
     app.run(debug=True)
