@@ -1,21 +1,20 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
+from Knowledge_Manager import KM
 
 app = Flask(__name__)
-client = MongoClient("mongodb://localhost:27017/")
 
-db = client['KMA_DB']
+knowledge_manager = KM(username ="imanadmin", password = "password123",
+                       role = "admin")
 
-@app.route('/data')
-def createUser():
-    collection = db.userInformation
-    post = {
-            "name": "Test Two",
-            "pass": "pass2",
-            "role": "user"
-        }
-    result = collection.insert_one(post)
-    return 'Inserted document with id: {}'.format(result.inserted_id)
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+    success = KM.login(username, password)
+    return jsonify({"success": success})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
