@@ -1,3 +1,13 @@
+# Code from Blythe's branch. 
+# Status: I am able to successfully run.
+# I get "Serving Flask app 'app' notification and Debug mode: on
+# I get WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+# Running on http://
+# Restarting with stat, might have been because I changed the file name to app-b from app
+# Then I get notifications: 
+# Debugger is active!
+# Debugger PIN
+
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from Knowledge_Manager import KM
