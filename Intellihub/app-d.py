@@ -1,3 +1,14 @@
+# Code from Dalton's branch
+# Status when running:
+# I had to use flask --app app-d run to get results
+# otherwise it just ran but no notifications or output
+# I got notifications:
+# * Serving Flask app 'app-d'
+# * Debug mode: off
+# WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+# * Running on http://
+# Press CTRL+C to quit
+
 from flask import Flask, jsonify, url_for
 from pymongo import MongoClient
 
