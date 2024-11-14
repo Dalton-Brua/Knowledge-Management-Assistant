@@ -1,68 +1,120 @@
-import React from "react";
-import { DashboardSideNav } from "./DashboardSideNav";
-import { Document } from "./Document";
-import { Logout } from "./Logout";
-import { Setting } from "./Setting";
-import ellipse5 from "./ellipse-5.png";
-import "./style.css";
+.login {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
 
-export const SideNav = () => {
-  return (
-    <div className="side-nav">
-      <div className="div-2">
-        <img className="ellipse" alt="Ellipse" src={ellipse5} />
+.login .login-v {
+    background-image: url(./login-v2.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 1024px;
+    width: 1440px;
+}
 
-        <div className="logout-toogle">
-          <div className="leading-icon-nav-wrapper">
-            <div className="leading-icon-nav-2">
-              <div className="div-3">
-                <Logout className="icon-instance-node" color="white" />
-              </div>
+.login .frame-2 {
+    -webkit-backdrop-filter: blur(32px) brightness(100%);
+    backdrop-filter: blur(32px) brightness(100%);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(250.42, 250.42, 250.42, 0.4) 50%,
+        rgba(248.21, 248.21, 248.21, 0.6) 100%
+    );
+    border: 1px solid;
+    border-color: transparent;
+    border-image: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.2)
+        )
+        1;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 751px;
+    left: 356px;
+    overflow: hidden;
+    position: relative;
+    top: 137px;
+    width: 728px;
+}
 
-              <div className="div-3">
-                <div className="text-wrapper">Logout</div>
-              </div>
-            </div>
-          </div>
-        </div>
+.login .frame-3 {
+    height: 573px;
+    left: 143px;
+    position: absolute;
+    top: 162px;
+    width: 442px;
+}
 
-        <div className="brand-nav-list">
-          <div className="nav-brand" />
+.login .frame-4 {
+    height: 112px;
+    left: 103px;
+    position: absolute;
+    top: 0;
+    width: 236px;
+}
 
-          <div className="nav-list">
-            <DashboardSideNav
-              className="dashboard-side-nav-button"
-              property1="default"
-              text="Home"
-            />
-            <div className="div-wrapper">
-              <div className="leading-icon-nav-2">
-                <div className="div-3">
-                  <Document className="icon-instance-node" />
-                </div>
+.login .text-wrapper-5 {
+    color: #ffffff;
+    font-family: var(--header-1-font-family);
+    font-size: var(--header-1-font-size);
+    font-style: var(--header-1-font-style);
+    font-weight: var(--header-1-font-weight);
+    height: 144px;
+    left: -49px;
+    letter-spacing: var(--header-1-letter-spacing);
+    line-height: var(--header-1-line-height);
+    position: absolute;
+    text-align: center;
+    top: -17px;
+}
 
-                <div className="div-3">
-                  <div className="dashboard-2">Saved Queries</div>
-                </div>
-              </div>
-            </div>
+.login .frame-5 {
+    height: 256px;
+    left: 0;
+    position: absolute;
+    top: 244px;
+    width: 442px;
+}
 
-            <div className="div-wrapper">
-              <div className="leading-icon-nav-2">
-                <div className="div-3">
-                  <Setting className="icon-instance-node" color="#EFF2F4" />
-                </div>
+.login .frame-21 {
+    left: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+}
 
-                <div className="div-3">
-                  <div className="dashboard-2">Settings</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+.login .button-instance {
+    border: 1px solid !important;
+    border-color: #000000 !important;
+    box-shadow: inset 8px 7px 5.8px #00000040 !important;
+    display: flex !important;
+    height: 42px !important;
+    left: 153px !important;
+    padding: 26px 50px !important;
+    position: absolute !important;
+    top: 214px !important;
+    width: 136px !important;
+}
 
-        <div className="text-wrapper-2">Intellihub</div>
-      </div>
-    </div>
-  );
-};
+.login .design-component-instance-node {
+    margin-bottom: -16.00px !important;
+    margin-left: -13.50px !important;
+    margin-right: -13.50px !important;
+    margin-top: -18.00px !important;
+}
+
+.login .logo-instance {
+    height: 115px !important;
+    left: 24px !important;
+    position: absolute !important;
+    top: 27px !important;
+    width: 119px !important;
+}
+
+.login .logo-2 {
+    height: 123px !important;
+    width: 127px !important;
+}
