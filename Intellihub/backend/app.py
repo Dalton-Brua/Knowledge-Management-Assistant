@@ -16,3 +16,4 @@ def createUser():
         }
     result = collection.insert_one(post)
     return 'Inserted document with id: {}'.format(result.inserted_id)
+
