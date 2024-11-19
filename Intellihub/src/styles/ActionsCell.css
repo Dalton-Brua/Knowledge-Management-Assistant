@@ -1,0 +1,10 @@
+.frame {
+    background-color: #ffffff;
+    height: 28px;
+    position: relative;
+    width: 259px;
+    }
+    .frame .actions-cell-instance {
+    left: 66px !important;
+    top: 2px !important;
+    }
