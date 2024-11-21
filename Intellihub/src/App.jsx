@@ -7,16 +7,28 @@ import SavedQueries from "./components/SavedQueries";
 import Layout from "./components/Layout";
 
 const App = () => {
-    const isAuthenticated = true; // Temporarily set to true to bypass login
+    // Replace this with actual authentication logic
+    const isAuthenticated = false; // Temporarily set to false for testing login
 
     return (
         <Router>
             <Routes>
+                {/* Default route: Redirect to login or dashboard based on authentication */}
                 <Route
                     path="/"
-                    element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+                    element={
+                        isAuthenticated ? (
+                            <Navigate to="/dashboard" replace />
+                        ) : (
+                            <Navigate to="/login" replace />
+                        )
+                    }
                 />
+
+                {/* Login Route */}
                 <Route path="/login" element={<Login />} />
+
+                {/* Protected Routes */}
                 <Route
                     path="/dashboard"
                     element={
@@ -25,7 +37,7 @@ const App = () => {
                                 <QueryDashboard />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
@@ -37,7 +49,7 @@ const App = () => {
                                 <SavedQueries />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
@@ -49,10 +61,13 @@ const App = () => {
                                 <AdminPanel />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
+
+                {/* Fallback for undefined routes */}
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Router>
     );
