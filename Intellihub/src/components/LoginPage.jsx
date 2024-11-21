@@ -2,32 +2,54 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        // Placeholder for backend login logic
+        // Simulate login by updating the authentication state
+        setIsAuthenticated(true);
         navigate("/dashboard");
     };
 
     return (
         <div className="login-page">
             <div className="login-container">
-                <img 
-                    src="../assets/Logo.png" // Replace with your actual logo path
-                    alt="Logo" 
+                {/* Logo Section */}
+                <img
+                    src={require("../assets/Logo.png")} // Ensure the logo path is correct
+                    alt="Logo"
                     className="logo"
                 />
+
+                {/* Login Title */}
                 <h1 className="login-title">Sign In</h1>
-                <form className="login-form">
+
+                {/* Login Form */}
+                <form
+                    className="login-form"
+                    onSubmit={(e) => {
+                        e.preventDefault(); // Prevent page reload on form submission
+                        handleLogin();
+                    }}
+                >
                     <div className="input-group">
-                        <input type="email" placeholder="Email Address" required />
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            required
+                            className="login-input"
+                        />
                     </div>
                     <div className="input-group">
-                        <input type="password" placeholder="Password" required />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            required
+                            className="login-input"
+                        />
                     </div>
                     <p className="reset-password">Reset password</p>
-                    <button type="button" className="login-button" onClick={handleLogin}>
+                    <button type="submit" className="login-button">
                         Submit
                     </button>
                 </form>
