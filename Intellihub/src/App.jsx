@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./components/LoginPage";
 import QueryDashboard from "./components/QueryDashboard";
@@ -7,16 +7,31 @@ import SavedQueries from "./components/SavedQueries";
 import Layout from "./components/Layout";
 
 const App = () => {
-    const isAuthenticated = true; // Temporarily set to true to bypass login
+    // State to handle simulated authentication
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     return (
         <Router>
             <Routes>
+                {/* Default route: Redirect to login or dashboard based on authentication */}
                 <Route
                     path="/"
-                    element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+                    element={
+                        isAuthenticated ? (
+                            <Navigate to="/dashboard" replace />
+                        ) : (
+                            <Navigate to="/login" replace />
+                        )
+                    }
                 />
-                <Route path="/login" element={<Login />} />
+
+                {/* Login Route */}
+                <Route
+                    path="/login"
+                    element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+
+                {/* Protected Routes */}
                 <Route
                     path="/dashboard"
                     element={
@@ -25,7 +40,7 @@ const App = () => {
                                 <QueryDashboard />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
@@ -37,7 +52,7 @@ const App = () => {
                                 <SavedQueries />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
@@ -49,10 +64,13 @@ const App = () => {
                                 <AdminPanel />
                             </Layout>
                         ) : (
-                            <Navigate to="/login" />
+                            <Navigate to="/login" replace />
                         )
                     }
                 />
+
+                {/* Fallback for undefined routes */}
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Router>
     );
