@@ -15,7 +15,6 @@ const QueryDashboard = () => {
 
     return (
         <div className="query-dashboard">
-            {/* Existing Cards */}
             <div className="dashboard-content">
                 <div className="query-cards-container">
                     <QueryCard
@@ -33,7 +32,6 @@ const QueryDashboard = () => {
                 </div>
             </div>
 
-            {/* Scrollable Query Results */}
             <div className="query-results-container">
                 {queries.map((query, index) => (
                     <div key={index} className="query-result-card">
@@ -42,7 +40,6 @@ const QueryDashboard = () => {
                 ))}
             </div>
 
-            {/* Input Bar */}
             <div className="input-container">
                 <input
                     type="text"
