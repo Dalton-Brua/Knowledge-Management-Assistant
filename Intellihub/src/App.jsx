@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./components/LoginPage";
 import QueryDashboard from "./components/QueryDashboard";
@@ -7,8 +7,8 @@ import SavedQueries from "./components/SavedQueries";
 import Layout from "./components/Layout";
 
 const App = () => {
-    // Replace this with actual authentication logic
-    const isAuthenticated = false; // Temporarily set to false for testing login
+    // State to handle simulated authentication
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     return (
         <Router>
@@ -26,7 +26,10 @@ const App = () => {
                 />
 
                 {/* Login Route */}
-                <Route path="/login" element={<Login />} />
+                <Route
+                    path="/login"
+                    element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
 
                 {/* Protected Routes */}
                 <Route
