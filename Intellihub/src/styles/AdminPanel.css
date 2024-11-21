@@ -1,0 +1,98 @@
+/* General Styling for AdminPanel */
+.admin-panel {
+    display: flex;
+    width: 100%;
+    min-height: 100vh; /* Ensures the container spans the full viewport height */
+    background-color: #ffffff;
+}
+
+/* Sidebar Styling */
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    width: 291px;
+    height: 100vh; /* Ensures it spans the full viewport height */
+    background-color: #050A32; /* Corrected to dark blue */
+    color: #ffffff;
+    padding: 30px 22px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Sidebar Content */
+.side-nav .div-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Ensures full height alignment */
+    width: 100%;
+}
+
+/* Logo Styling */
+.side-nav .ellipse {
+    height: 80px;
+    width: 80px;
+    margin: 0 auto 20px; /* Center logo and add bottom spacing */
+}
+
+/* Navigation Links */
+.side-nav .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.side-nav .nav-list a {
+    text-decoration: none;
+    color: #eff2f4;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.side-nav .nav-list a:hover {
+    background-color: #4caf50;
+}
+
+/* Logout Section */
+.side-nav .logout-toogle {
+    margin-top: auto; /* Push to the bottom */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #35384c;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.side-nav .logout-toogle:hover {
+    background-color: #4a4e69;
+}
+
+/* Logout Icon */
+.side-nav .icon-instance-node {
+    height: 24px;
+    width: 24px;
+    margin-right: 10px;
+}
+
+/* Content Section */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.content h1 {
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}

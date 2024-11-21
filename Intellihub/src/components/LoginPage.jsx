@@ -1,68 +1,39 @@
 import React from "react";
-import { DashboardSideNav } from "./DashboardSideNav";
-import { Document } from "./Document";
-import { Logout } from "./Logout";
-import { Setting } from "./Setting";
-import ellipse5 from "./ellipse-5.png";
-import "./style.css";
+import { useNavigate } from "react-router-dom";
+import "../styles/LoginPage.css";
 
-export const SideNav = () => {
-  return (
-    <div className="side-nav">
-      <div className="div-2">
-        <img className="ellipse" alt="Ellipse" src={ellipse5} />
+const Login = () => {
+    const navigate = useNavigate();
 
-        <div className="logout-toogle">
-          <div className="leading-icon-nav-wrapper">
-            <div className="leading-icon-nav-2">
-              <div className="div-3">
-                <Logout className="icon-instance-node" color="white" />
-              </div>
+    const handleLogin = () => {
+        // Placeholder for backend login logic
+        navigate("/dashboard");
+    };
 
-              <div className="div-3">
-                <div className="text-wrapper">Logout</div>
-              </div>
+    return (
+        <div className="login-page">
+            <div className="login-container">
+                <img 
+                    src="../assets/Logo.png" // Replace with your actual logo path
+                    alt="Logo" 
+                    className="logo"
+                />
+                <h1 className="login-title">Sign In</h1>
+                <form className="login-form">
+                    <div className="input-group">
+                        <input type="email" placeholder="Email Address" required />
+                    </div>
+                    <div className="input-group">
+                        <input type="password" placeholder="Password" required />
+                    </div>
+                    <p className="reset-password">Reset password</p>
+                    <button type="button" className="login-button" onClick={handleLogin}>
+                        Submit
+                    </button>
+                </form>
             </div>
-          </div>
         </div>
-
-        <div className="brand-nav-list">
-          <div className="nav-brand" />
-
-          <div className="nav-list">
-            <DashboardSideNav
-              className="dashboard-side-nav-button"
-              property1="default"
-              text="Home"
-            />
-            <div className="div-wrapper">
-              <div className="leading-icon-nav-2">
-                <div className="div-3">
-                  <Document className="icon-instance-node" />
-                </div>
-
-                <div className="div-3">
-                  <div className="dashboard-2">Saved Queries</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="div-wrapper">
-              <div className="leading-icon-nav-2">
-                <div className="div-3">
-                  <Setting className="icon-instance-node" color="#EFF2F4" />
-                </div>
-
-                <div className="div-3">
-                  <div className="dashboard-2">Settings</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-wrapper-2">Intellihub</div>
-      </div>
-    </div>
-  );
+    );
 };
+
+export default Login;
