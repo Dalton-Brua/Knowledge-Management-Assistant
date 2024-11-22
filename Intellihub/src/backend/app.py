@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pymongo import MongoClient
 from markupsafe import escape
 import parse_json as pj
 
 
 app = Flask(__name__)
+CORS(app)
 client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
@@ -31,6 +33,7 @@ def getUserInfo(username):
     doc = collection.find_one({ 'name' : f'{username}' })
     if (doc == None):
         return f"No documents found with username \'{username}\'"
+    print("User found:\n")
     print(pj.parse_json(doc))
     return pj.parse_json(doc)
 
