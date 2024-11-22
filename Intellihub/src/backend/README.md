@@ -1,9 +1,9 @@
 # Install and Create Environment
 
-Navigate to /Intellihub/backend and run these commands
+Navigate to /Intellihub/src/backend and run these commands
 
 ### py -3 -m venv .venv
 ### .venv/Scripts/activate
 ### pip install flask
 ### pip install pymongo
-### flask --app app run
+### npm run start-api

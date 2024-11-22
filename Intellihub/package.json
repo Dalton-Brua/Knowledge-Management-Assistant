@@ -2,6 +2,10 @@
   "name": "intellihub",
   "version": "0.1.0",
   "private": true,
+  "options": {
+    "allowedHosts": ["localhost", ".localhost"],
+    "proxy": "http://localhost:5000/"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-api": "cd src/backend && flask run --debug",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
