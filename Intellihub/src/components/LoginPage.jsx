@@ -14,7 +14,7 @@ const Login = ({ setIsAuthenticated }) => {
 
         fetch('http://localhost:5000/getUserInfo/' + username, {
             method: 'GET', 
-            mode: 'no-cors'
+            //mode: 'no-cors'
         }).then(res => res.json()).then(data => {
             console.log(data);
             setIsAuthenticated(true);
@@ -24,6 +24,7 @@ const Login = ({ setIsAuthenticated }) => {
         
         setIsAuthenticated(false);
     };
+    
 
     return (
         <div className="login-page">
