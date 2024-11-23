@@ -6,6 +6,7 @@ import "../styles/LoginPage.css";
 const Login = ({ setIsAuthenticated }) => {
 
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = () => {
@@ -14,8 +15,12 @@ const Login = ({ setIsAuthenticated }) => {
 
         fetch('http://localhost:5000/getUserInfo/' + username, {
             method: 'GET', 
-            //mode: 'no-cors'
         }).then(res => res.json()).then(data => {
+
+            // TODO: IMPLEMENT PASSWORD HASHING AND CHECKING
+            if (data.pass != password) {
+                throw new Error("Incorrect password");
+            }
             console.log(data);
             console.log("Aunthentication approved.")
             setIsAuthenticated(true);
@@ -64,6 +69,7 @@ const Login = ({ setIsAuthenticated }) => {
                             placeholder="Password"
                             required
                             className="login-input"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <p className="reset-password">Reset password</p>
