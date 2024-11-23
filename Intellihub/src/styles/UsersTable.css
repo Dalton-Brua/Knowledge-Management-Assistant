@@ -1,115 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-/* General Table Wrapper */
-.users-table {
-    display: flex;
-    flex-direction: column;
+.users-table-container {
     width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling for smaller screens */
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-family: "Poppins", sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
 }
 
 /* Table Header */
-.table-header {
-    display: flex;
+.users-table thead th {
     background-color: #f5f5f5;
-    padding: 5px 8px;
-    font-family: "Poppins", sans-serif; /* Ensure Poppins is applied */
-    font-size: 14px;
-    font-weight: 600;
     color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    white-space: nowrap; 
+}
+
+/* Table Body */
+.users-table tbody td {
+    padding: 10px;
     border-bottom: 1px solid #ddd;
-    justify-content: center;
-    align-items: center; /* Centers content vertically */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
-/* Header Cells */
-.column-header {
-    flex: 1;
-    text-align: center; /* Center align header text */
-    padding: 5px 0;
+.username-column {
+    width: 30%; 
 }
 
-/* Table Rows */
-.table-row {
-    display: flex;
-    padding: 5px 10px;
-    font-family: "Poppins", sans-serif; /* Ensure Poppins is applied */
-    font-size: 12px;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-    align-items: center; /* Centers content vertically */
+.role-column {
+    width: 20%; 
+    text-align: center;
 }
 
-/* Last Row Without Border */
-.table-row:last-child {
-    border-bottom: none;
+.status-column {
+    width: 15%; 
+    text-align: center;
 }
 
-/* User Column (Left-Aligned) */
-.user-name {
-    flex: 2;
-    text-align: left; /* Ensures names are left-aligned */
+.actions-column {
+    width: 35%; 
+    text-align: center;
 }
 
-/* Role Column (Centered) */
-.user-role {
-    flex: 1;
-    text-align: left; /* Ensures roles are centered */
-    padding: 0; /* Remove extra padding to prevent misalignment */
+/* Row Hover Effect */
+.users-table tbody tr:hover {
+    background-color: #f9f9f9;
 }
 
-/* Actions Column */
-.actions {
-    flex: 1.5; /* Slightly wider than the role column */
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* Action Buttons */
-.action-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 5px 5px;
-    font-family: "Poppins", sans-serif;
-    font-size: 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 36px;
-}
-
-.action-button.edit {
-    background-color: #4caf50;
-    color: #fff;
-}
-
-.action-button.edit:hover {
-    background-color: #45a049;
-}
-
-.action-button.deactivate {
-    background-color: #ffa500;
-    color: #fff;
-}
-
-.action-button.deactivate:hover {
-    background-color: #e69100;
-}
-
-.action-button.delete {
-    background-color: #f44336;
-    color: #fff;
-}
-
-.action-button.delete:hover {
-    background-color: #e53935;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .users-table th, .users-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
 }

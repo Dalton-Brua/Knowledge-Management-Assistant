@@ -1,6 +1,8 @@
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive layout */
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px; 
     margin-top: 20px;
+    width: 100%; 
+    justify-items: center; 
 }
