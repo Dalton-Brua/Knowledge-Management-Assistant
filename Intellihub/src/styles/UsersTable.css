@@ -1,3 +1,4 @@
+/* General Table Container */
 .users-table-container {
     width: 100%;
     overflow-x: auto; /* Allow horizontal scrolling for smaller screens */
@@ -23,34 +24,35 @@
     padding: 10px;
     border-bottom: 2px solid #ddd;
     font-weight: bold;
-    white-space: nowrap; 
+    white-space: nowrap; /* Prevent wrapping in headers */
 }
 
 /* Table Body */
 .users-table tbody td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Prevent overflowing content */
+    text-overflow: ellipsis; /* Show ellipsis for truncated content */
 }
 
+/* Column Width Adjustments */
 .username-column {
-    width: 30%; 
+    width: 30%; /* Largest column for username */
 }
 
 .role-column {
-    width: 20%; 
+    width: 20%; /* Medium width for role */
     text-align: center;
 }
 
 .status-column {
-    width: 15%; 
+    width: 15%; /* Smaller width for status */
     text-align: center;
 }
 
 .actions-column {
-    width: 35%; 
+    width: 35%; /* Enough space for action buttons */
     text-align: center;
 }
 

@@ -50,7 +50,7 @@ const QueryDashboard = () => {
                     onKeyDown={(e) => e.key === "Enter" && handleSendQuery()}
                 />
                 <button className="send-button" onClick={handleSendQuery}>
-                    <i className="fa fa-arrow-up"></i>
+                ✈
                 </button>
             </div>
         </div>
