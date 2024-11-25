@@ -1,9 +1,13 @@
 import json
+import os
+from dotenv import load_dotenv
 from googleapiclient.discovery import build
 
 #TODO: Store as environment variables
-API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
-SEARCH_ENGINE_ID = '0546012e6548e4e3f'
+
+load_dotenv()
+API_KEY = os.environ['API_KEY']
+SEARCH_ENGINE_ID = os.environ['SEARCH_ENGINE_ID']
 
 def search(query, api_key, search_engine_id, num_results=10, output_file="search_results.json"):
     try:

@@ -5,11 +5,13 @@
 /.pnp
 .pnp.js
 .venv
+.env
 __pycache__
 
 
 # testing
 /coverage
+.json
 
 # production
 /build
