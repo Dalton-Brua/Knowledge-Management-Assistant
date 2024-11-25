@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UsersTable from "./UsersTable";
 import CardContainer from "./CardContainer";
 import "../styles/AdminPanel.css";
@@ -69,6 +69,12 @@ const AdminPanel = () => {
     const handleDeleteUser = (userId) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     };
+
+    useEffect(() => {
+        fetch('http://localhost:5000/getUsers').then(res => res.json()).then(data => {
+            setUsers(data);
+        })
+    });
 
     return (
         <div className="admin-panel">

@@ -12,10 +12,6 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-@app.route('/home')
-def home():
-    return "<h1>Hello world!</h1>"
-
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username, password):
     collection = db.users
@@ -44,7 +40,18 @@ def getUserInfo(username):
 
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
-    return db.users
+    return pj.parse_json(db.users.find({}))
+
+@app.route('/createQuery', methods=['POST'])
+def createQuery():
+
+    collection = db.queries
+    query = request.form['query']
+
+    return query
+@app.route('/getQueries', methods=["GET"])
+def getQueries():
+    return db.queries.find({})
 
 if __name__ == "__main__":
     app.run(debug=True)
