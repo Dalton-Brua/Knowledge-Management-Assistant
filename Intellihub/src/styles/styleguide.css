@@ -1,0 +1,27 @@
+:root {
+    --button-font-family: "Barlow", Helvetica;
+    --button-font-size: 20px;
+    --button-font-style: normal;
+    --button-font-weight: 400;
+    --button-letter-spacing: 0px;
+    --button-line-height: normal;
+    --collection-2-dark-blue: rgba(5, 10, 50, 1);
+    --header-1-font-family: "Poppins", Helvetica;
+    --header-1-font-size: 96px;
+    --header-1-font-style: normal;
+    --header-1-font-weight: 800;
+    --header-1-letter-spacing: 0px;
+    --header-1-line-height: normal;
+    --input-font-family: "Barlow", Helvetica;
+    --input-font-size: 22px;
+    --input-font-style: italic;
+    --input-font-weight: 400;
+    --input-letter-spacing: 0px;
+    --input-line-height: normal;
+    --subtext-font-family: "IBM Plex Mono", Helvetica;
+    --subtext-font-size: 12px;
+    --subtext-font-style: normal;
+    --subtext-font-weight: 400;
+    --subtext-letter-spacing: 0px;
+    --subtext-line-height: normal;
+}

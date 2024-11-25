@@ -1,0 +1,17 @@
+.layout {
+    display: flex;
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+}
+
+.side-nav {
+    width: 250px;
+    background-color: #0a192f; /* Update with your theme color */
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f8f9fa; /* Background for main content area */
+}

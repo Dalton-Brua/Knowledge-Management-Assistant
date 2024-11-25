@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Side Navigation Bar */
+.side-nav {
+  background-color: rgba(5, 10, 50, 1); /* Hex: #050A32 */
+  color: #eff2f4;
+  width: 291px;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space between logo, nav list, and logout */
+  padding: 20px 15px;
+  box-shadow: 0px 9px 93px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+}
+
+.logo-container {
+  text-align: center;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 120px; /* Adjust logo size */
+}
+
+/* Navigation Items */
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between links */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #35384c;
+}
+
+.nav-icon {
+  font-size: 20px;
+  color: #eff2f4;
+}
+
+.nav-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: #eff2f4;
+}
+
+/* Logout Button */
+.logout-container {
+  margin-top: auto;
+  text-align: center;
+}
+
+.logout-button {
+  background-color: #35384c;
+  color: #eff2f4;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #4a4e69;
+}
+
+.logout-icon {
+  font-size: 20px;
+  color: #eff2f4;
+}
+
+.logout-text {
+  color: #eff2f4;
+}
