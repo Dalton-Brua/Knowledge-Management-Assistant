@@ -18,7 +18,7 @@ def home():
 
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username, password):
-    collection = db.users
+    collection = db.userInformation
 
     #hash = SHA256.new()
     #hash.update(password)
@@ -44,7 +44,7 @@ def getUserInfo(username):
 
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
-    return db.users
+    return db.userInformation
 
 if __name__ == "__main__":
     app.run(debug=True)
