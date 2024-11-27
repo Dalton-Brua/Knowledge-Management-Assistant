@@ -1,10 +1,47 @@
-.frame {
-    background-color: #ffffff;
-    height: 28px;
-    position: relative;
-    width: 259px;
-    }
-    .frame .actions-cell-instance {
-    left: 66px !important;
-    top: 2px !important;
-    }
+.actions-cell {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.edit-button,
+.deactivate-button,
+.delete-button {
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+/* Edit Button */
+.edit-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+/* Deactivate Button */
+.deactivate-button {
+    background-color: #ffa500;
+    color: white;
+}
+
+.deactivate-button:hover {
+    background-color: #e69100;
+}
+
+/* Delete Button */
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #e53935;
+}

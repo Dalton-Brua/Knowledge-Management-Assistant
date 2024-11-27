@@ -1,42 +1,38 @@
 import React from "react";
-import { FiEdit, FiTrash2, FiUserX } from "react-icons/fi"; // Using icons for actions
+import ActionsCell from "./ActionsCell";
 import "../styles/UsersTable.css";
 
-const UsersTable = () => {
-    const users = [
-        { name: "Dwight Shrute", role: "Admin" },
-        { name: "Ashley Olson", role: "Knowledge Manager" },
-        { name: "Albus Dumbledore", role: "Knowledge Manager" },
-        { name: "Will Ferrell", role: "Guest" },
-        { name: "Homer Simpson", role: "Knowledge Manager" },
-        { name: "Delores O’Riordan", role: "Admin" },
-        { name: "Melanie Chisholm", role: "Knowledge Manager" },
-    ];
-
+const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
     return (
-        <div className="users-table">
-            <div className="table-header">
-                <div className="column-header">Users</div>
-                <div className="column-header">Role</div>
-                <div className="column-header">Actions</div>
-            </div>
-            {users.map((user, index) => (
-                <div key={index} className="table-row">
-                    <div className="user-name">{user.name}</div>
-                    <div className="user-role">{user.role}</div>
-                    <div className="actions">
-                        <button className="action-button edit">
-                            <FiEdit /> Edit
-                        </button>
-                        <button className="action-button deactivate">
-                            <FiUserX /> Deactivate
-                        </button>
-                        <button className="action-button delete">
-                            <FiTrash2 /> Delete
-                        </button>
-                    </div>
-                </div>
-            ))}
+        <div className="users-table-container">
+            <table className="users-table">
+                <thead>
+                    <tr>
+                        <th className="username-column">Username</th>
+                        <th className="role-column">Role</th>
+                        <th className="status-column">Status</th>
+                        <th className="actions-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user) => (
+                        <tr key={user.id}>
+                            <td className="username-column">{user.name}</td>
+                            <td className="role-column">{user.role}</td>
+                            <td className="status-column">{user.status}</td>
+                            <td className="actions-column">
+                                <ActionsCell
+                                    onEdit={() => onEditUser(user)}
+                                    onDeactivate={() =>
+                                        onEditUser({ ...user, status: user.status === "Active" ? "Inactive" : "Active" })
+                                    }
+                                    onDelete={() => onDeleteUser(user.id)}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

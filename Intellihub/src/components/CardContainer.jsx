@@ -15,8 +15,6 @@ const CardContainer = () => {
                 inUse="150 Queries"
                 available="850 Queries"
             />
-            <Card title="User Access Logs" manageText="Manage" />
-            <Card title="Password Management" manageText="Manage" />
         </div>
     );
 };

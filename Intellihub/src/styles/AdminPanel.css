@@ -1,98 +1,167 @@
-/* General Styling for AdminPanel */
-.admin-panel {
-    display: flex;
-    width: 100%;
-    min-height: 100vh; /* Ensures the container spans the full viewport height */
-    background-color: #ffffff;
-}
-
-/* Sidebar Styling */
-.side-nav {
-    display: flex;
-    flex-direction: column;
-    width: 291px;
-    height: 100vh; /* Ensures it spans the full viewport height */
-    background-color: #050A32; /* Corrected to dark blue */
-    color: #ffffff;
-    padding: 30px 22px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Sidebar Content */
-.side-nav .div-2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%; /* Ensures full height alignment */
-    width: 100%;
-}
-
-/* Logo Styling */
-.side-nav .ellipse {
-    height: 80px;
-    width: 80px;
-    margin: 0 auto 20px; /* Center logo and add bottom spacing */
-}
-
-/* Navigation Links */
-.side-nav .nav-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.side-nav .nav-list a {
-    text-decoration: none;
-    color: #eff2f4;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    transition: all 0.3s ease;
-}
-
-.side-nav .nav-list a:hover {
+/* Add User Button Styling */
+.add-user-btn {
+    float: right;
+    margin-bottom: 8px;
     background-color: #4caf50;
-}
-
-/* Logout Section */
-.side-nav .logout-toogle {
-    margin-top: auto; /* Push to the bottom */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #35384c;
-    padding: 10px;
+    color: white;
+    border: none;
+    padding: 5px 10px;
     border-radius: 5px;
     font-family: "Poppins", sans-serif;
     font-size: 16px;
-    color: #ffffff;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.side-nav .logout-toogle:hover {
-    background-color: #4a4e69;
+.add-user-btn:hover {
+    background-color: #45a049;
 }
 
-/* Logout Icon */
-.side-nav .icon-instance-node {
-    height: 24px;
-    width: 24px;
-    margin-right: 10px;
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-/* Content Section */
-.content {
-    flex: 1;
+.modal {
+    background: white;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+.modal h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%; 
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    box-sizing: border-box; 
+    margin-top: 5px;
+}
+
+.form-group select {
+    appearance: none; 
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-btn,
+.cancel-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #e53935;
+}
+
+.form-group option {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000; 
 }
 
 .content h1 {
     font-family: "Poppins", sans-serif;
-    font-size: 32px;
+    font-size: 40px; 
     font-weight: 600;
     margin-bottom: 20px;
+}
+.form-group label input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+}
+/* Adjust checkbox alignment */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+}
+.content {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent unintended horizontal scrolling */
+}
+
+.admin-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Ensure everything aligns to the left */
+    width: 100%;
 }

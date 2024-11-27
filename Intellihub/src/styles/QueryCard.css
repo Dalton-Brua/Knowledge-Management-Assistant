@@ -20,15 +20,7 @@
     align-items: center;
     margin-bottom: 15px;
 }
-/*
-.avatar {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
-}
-*/
+
 .query-card-title {
     font-size: 16px;
     font-weight: bold;
