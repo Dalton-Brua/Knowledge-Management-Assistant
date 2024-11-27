@@ -17,12 +17,14 @@ const Login = ({ setIsAuthenticated }) => {
             //mode: 'no-cors'
         }).then(res => res.json()).then(data => {
             console.log(data);
+            console.log("Aunthentication approved.")
             setIsAuthenticated(true);
+            navigate("/dashboard"); // Remove after fixing Router issue in App.jsx?
         }).catch(error => {
             console.error("Error fetching data: ", error)
+            setIsAuthenticated(false);
         });
         
-        setIsAuthenticated(false);
     };
     
 
