@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/ActionsCell.css"; // Optional CSS for styling
+import "../styles/ActionsCell.css";
 
 const ActionsCell = ({ onEdit, onDeactivate, onDelete }) => {
     return (
