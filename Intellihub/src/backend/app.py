@@ -7,11 +7,10 @@ import json
 import parse_json as pj
 import search as google
 from gemini_api import GeminiSummarizer
+
 #from Crypto.Hash import SHA256
 
-SEARCH_API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
-SEARCH_ENGINE_ID = '0546012e6548e4e3f'
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
+
 
 app = Flask(__name__)
 CORS(app)
@@ -77,11 +76,11 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
     try:
         # Perform Google Search
         search_output_file = "search_results.json"
-        google.search(query, SEARCH_API_KEY, SEARCH_ENGINE_ID, num_results=10, output_file=search_output_file)
+        google.search(query, num_results=10, output_file=search_output_file)
 
         # Summarize search results
         summary_output_file = "summary_results.json"
-        summarizer = GeminiSummarizer(api_key=google_api_key)
+        summarizer = GeminiSummarizer()
         summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=query)
 
         # Get summary result

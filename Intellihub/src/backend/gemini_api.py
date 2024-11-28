@@ -1,13 +1,15 @@
 import json
 import requests
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
 # TODO: store environment variables
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
+google_api_key = os.getenv['GOOGLE_API_KEY']
 
 class GeminiSummarizer:
-    def __init__(self, api_key=google_api_key, model="gemini-1.5-flash"):
-        genai.configure(api_key=api_key)
+    def __init__(self, model="gemini-1.5-flash"):
+        genai.configure(api_key=google_api_key)
         self.model = model
 
     def summarize_results(self, input_file, output_file, query):

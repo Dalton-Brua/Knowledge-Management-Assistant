@@ -1,18 +1,23 @@
 import json
 from googleapiclient.discovery import build
+import os
+from dotenv import load_dotenv
 
 #TODO: Store as environment variables
-API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
-SEARCH_ENGINE_ID = '0546012e6548e4e3f'
+load_dotenv()
 
-def search(query, api_key, search_engine_id, num_results=10, output_file="search_results.json"):
+API_KEY = os.getenv['API_KEY']
+SEARCH_ENGINE_ID = os.getenv['SEARCH_ENGINE_ID']
+
+
+def search(query, num_results=10, output_file="search_results.json"):
     try:
-        service = build("customsearch", "v1", developerKey=api_key) # Builds Google Custom Search API service
+        service = build("customsearch", "v1", developerKey=API_KEY) # Builds Google Custom Search API service
         results = []
         for start_index in range(1, num_results + 1, 10):  # Max 10 results per page
             response = (
                 service.cse()
-                .list(q=query, cx=search_engine_id, start=start_index)
+                .list(q=query, cx=SEARCH_ENGINE_ID, start=start_index)
                 .execute()
             )
             results.extend(response.get("items", []))
@@ -26,4 +31,4 @@ if __name__ == "__main__":
     # Test query
     query = "Best Black Friday Deals" #TODO: Connect with frontend to get query from dashboard search form.
     
-    search(query, API_KEY, SEARCH_ENGINE_ID, num_results=20)
+    search(query, num_results=20)

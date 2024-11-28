@@ -12,12 +12,14 @@ Navigate to /Intellihub/src/backend and run these commands
 
 ### pip install flask-CORS
 
-### pip install cryptodomex
+### pip install pycryptodome
 
 ### pip install google-api-python-client
 
 ### pip install google.generativeai
 
 ### pip install google-generativeai grpcio grpcio-tools
+
+### pip install python-dotenv
 
 ### npm run start-api
