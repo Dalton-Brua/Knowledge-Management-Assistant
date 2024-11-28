@@ -17,7 +17,7 @@ def home():
     return "<h1>Hello world!</h1>"
 
 @app.route('/createUser/<username>', methods=['GET'])
-def createUser(username, password):
+def createUser(username):
     collection = db.users
 
     #hash = SHA256.new()
