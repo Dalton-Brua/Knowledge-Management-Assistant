@@ -2,9 +2,16 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from markupsafe import escape
+from datetime import datetime
+import json
 import parse_json as pj
-from Crypto.Hash import SHA256
+import search as google
+from gemini_api import GeminiSummarizer
+#from Crypto.Hash import SHA256
 
+SEARCH_API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
+SEARCH_ENGINE_ID = '0546012e6548e4e3f'
+google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
 
 app = Flask(__name__)
 CORS(app)
@@ -15,6 +22,9 @@ db = client["KMA_DB"]
 @app.route('/home')
 def home():
     return "<h1>Hello world!</h1>"
+
+##############################################
+
 
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username, password):
@@ -31,6 +41,8 @@ def createUser(username, password):
     result = collection.insert_one(post)
     return 'Inserted document with id: {}'.format(result.inserted_id)
 
+##############################################
+
 @app.route('/getUserInfo/<username>', methods=['GET'])
 def getUserInfo(username):
 
@@ -42,9 +54,57 @@ def getUserInfo(username):
     print(pj.parse_json(doc))
     return pj.parse_json(doc)
 
+##############################################
+
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
     return db.users
+
+##############################################
+
+@app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
+def handleQuery(): # TODO: Implement a way for Knowledge Manager to search through previous queries if any to improve response (part of scope/requirements)
+    collection = db.queries # Create 'queries' collection in database
+    data = request.get_json()
+
+    if not data or 'query' not in data:
+        return jsonify({"error": "Invalid request. Query is missing."}), 400
+
+    query = data['query']
+    user = data.get('user', 'unknown')  # Default to 'unknown' if no user is provided - Current implementation is always "testuser"
+    timestamp = datetime.now().isoformat() # Save when query is submitted
+
+    try:
+        # Perform Google Search
+        search_output_file = "search_results.json"
+        google.search(query, SEARCH_API_KEY, SEARCH_ENGINE_ID, num_results=10, output_file=search_output_file)
+
+        # Summarize search results
+        summary_output_file = "summary_results.json"
+        summarizer = GeminiSummarizer(api_key=google_api_key)
+        summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=query)
+
+        # Get summary result
+        with open(summary_output_file, "r") as f:
+            summary_data = json.load(f)
+
+        # Save the query, user, timestamp, and response in MongoDB
+        log_entry = {
+            "query": query,
+            "user": user,
+            "timestamp": timestamp,
+            "response": summary_data.get("response", "No response available."),
+        }
+        collection.insert_one(log_entry)
+
+        # Return the summarized response to the frontend
+        return jsonify({"response": summary_data.get("response", "No response available.")}), 200
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing the query."}), 500
+
+##############################################
 
 if __name__ == "__main__":
     app.run(debug=True)
