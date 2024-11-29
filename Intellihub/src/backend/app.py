@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from markupsafe import escape
 import parse_json as pj
 from Crypto.Hash import SHA256
+from search import search
 
 
 app = Flask(__name__)
@@ -42,13 +43,22 @@ def getUserInfo(username):
 def getUsers():
     return pj.parse_json(db.users.find({}))
 
+@app.route('/deleteUser', methods=['POST'])
+def deleteUser():
+    user = request.get_json
+    collection = db.users
+    collection.delete_one(user)
+
+    return pj.parse_json(db.users.find({}))
+
 @app.route('/createQuery', methods=['POST'])
 def createQuery():
 
     collection = db.queries
     query = request.form['query']
 
-    return query
+
+    return pj.parse_json(query)
 @app.route('/getQueries', methods=["GET"])
 def getQueries():
     return db.queries.find({})

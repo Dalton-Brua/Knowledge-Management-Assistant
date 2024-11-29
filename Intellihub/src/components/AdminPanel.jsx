@@ -66,15 +66,26 @@ const AdminPanel = () => {
         openModal();
     };
 
-    const handleDeleteUser = (userId) => {
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    const handleDeleteUser = (userDelete) => {
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userDelete.id));
+        // fetch('http://localhost:5000/deleteUser', {
+        //     method: "POST",
+        //     headers: {
+        //         "Accept": "application/json",
+        //         "Content-Type": 'application/json'
+        //     },
+        //     body: { userDelete }
+            
+        // }).then(res => res.json()).then(data => {
+        //     setUsers(data);
+        // })
     };
 
     useEffect(() => {
         fetch('http://localhost:5000/getUsers').then(res => res.json()).then(data => {
             setUsers(data);
         })
-    });
+    }, []);
 
     return (
         <div className="admin-panel">

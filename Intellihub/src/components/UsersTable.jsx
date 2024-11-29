@@ -26,7 +26,7 @@ const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
                                     onDeactivate={() =>
                                         onEditUser({ ...user, status: user.status === "Active" ? "Inactive" : "Active" })
                                     }
-                                    onDelete={() => onDeleteUser(user.id)}
+                                    onDelete={() => onDeleteUser(user)}
                                 />
                             </td>
                         </tr>
