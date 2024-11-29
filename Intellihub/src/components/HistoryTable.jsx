@@ -21,7 +21,7 @@ export const HistoryTable = () => {
                 {tableData.map((row, index) => (
                     <div key={index} className="table-row">
                         <div className="table-cell">{row.query}</div>
-                        <div className="table-cell">{row.date}</div>
+                        <div className="table-cell">{row.timestamp}</div>
                     </div>
                 ))}
             </div>
