@@ -16,12 +16,7 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-@app.route('/home')
-def home():
-    return "<h1>Hello world!</h1>"
-
 ##############################################
-
 
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username):
@@ -57,6 +52,14 @@ def getUserInfo(username):
 def getUsers():
     return db.users
 
+@app.route('/getAllQueries', methods=['GET'])
+def getQueries():
+    return pj.parse_json(db.queries.find())
+
+@app.route('/getLatestQueries', methods=['GET'])
+def getLatestQueries():
+    return pj.parse_json(db.queries.find().sort({"timestamp": -1}).limit(3))
+
 ##############################################
 
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
@@ -68,7 +71,6 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         return jsonify({"error": "Invalid request. Query is missing."}), 400
 
     query = data['query']
-    user = data.get('user', 'unknown')  # Default to 'unknown' if no user is provided - Current implementation is always "testuser"
     timestamp = datetime.now().isoformat() # Save when query is submitted
 
     try:
@@ -85,10 +87,9 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         with open(summary_output_file, "r") as f:
             summary_data = json.load(f)
 
-        # Save the query, user, timestamp, and response in MongoDB
+        # Save the query, timestamp, and response in MongoDB
         log_entry = {
             "query": query,
-            "user": user,
             "timestamp": timestamp,
             "response": summary_data.get("response", "No response available."),
         }

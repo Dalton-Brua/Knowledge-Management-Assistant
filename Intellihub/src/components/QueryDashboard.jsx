@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import QueryCard from "./QueryCard";
 import "../styles/QueryDashboard.css";
 
@@ -7,6 +7,12 @@ const QueryDashboard = () => {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        fetch("http://localhost:5000/getLatestQueries").then(res => res.json()).then(data => {
+            setQueries(data); // TODO: FIX TIMESTAMP, the json is returning data that not meant to be there
+        })                    
+    }, []);
 
     const handleSendQuery = async () => { // TODO: Implement a way to modify query after submitting
         if (input.trim() === "") { // TODO: Handle other invalid queries
@@ -23,8 +29,7 @@ const QueryDashboard = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    query: input,
-                    user: "testuser", // TODO: Implement a way to hold current user info after login
+                    query: input
                 }),
             });
 
@@ -35,7 +40,7 @@ const QueryDashboard = () => {
             const data = await response.json();
 
             // Update queries with the new query and response
-            setQueries([
+             setQueries([
                 ...queries,
                 {
                     query: input,
