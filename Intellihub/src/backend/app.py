@@ -7,7 +7,6 @@ import json
 import parse_json as pj
 import search as google
 from gemini_api import GeminiSummarizer
-
 #from Crypto.Hash import SHA256
 
 app = Flask(__name__)
@@ -16,8 +15,7 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-##############################################
-
+## Creates new user in the database
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username):
     collection = db.users
@@ -33,8 +31,7 @@ def createUser(username):
     result = collection.insert_one(post)
     return 'Inserted document with id: {}'.format(result.inserted_id)
 
-##############################################
-
+## Gets a specific user profile
 @app.route('/getUserInfo/<username>', methods=['GET'])
 def getUserInfo(username):
 
@@ -46,22 +43,22 @@ def getUserInfo(username):
     print(pj.parse_json(doc))
     return pj.parse_json(doc)
 
-##############################################
-
+## Gets all users
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
     return db.users
 
+## Retrieves all queries and sorts by most recent
 @app.route('/getAllQueries', methods=['GET'])
 def getQueries():
-    return pj.parse_json(db.queries.find())
+    return pj.parse_json(db.queries.find().sort({"timestamp": -1}))
 
+## Retrieves 3 most recent queries
 @app.route('/getLatestQueries', methods=['GET'])
 def getLatestQueries():
     return pj.parse_json(db.queries.find().sort({"timestamp": -1}).limit(3))
 
-##############################################
-
+## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
 def handleQuery(): # TODO: Implement a way for Knowledge Manager to search through previous queries if any to improve response (part of scope/requirements)
     collection = db.queries # Create 'queries' collection in database
@@ -102,8 +99,7 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing the query."}), 500
 
-##############################################
-
+## Always runs the debug server
 if __name__ == "__main__":
     app.run(debug=True)
 

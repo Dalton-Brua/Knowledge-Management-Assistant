@@ -10,7 +10,7 @@
 
 .table-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
     background-color: #f1f1f1;
     font-weight: 700;
     padding: 10px 0;
