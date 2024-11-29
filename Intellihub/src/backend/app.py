@@ -10,8 +10,6 @@ from gemini_api import GeminiSummarizer
 
 #from Crypto.Hash import SHA256
 
-
-
 app = Flask(__name__)
 CORS(app)
 client = MongoClient("mongodb://localhost:27017/")

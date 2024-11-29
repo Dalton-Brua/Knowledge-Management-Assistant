@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import os
 
 # TODO: store environment variables
-google_api_key = os.getenv['GOOGLE_API_KEY']
+google_api_key = os.getenv('GOOGLE_API_KEY')
 
 class GeminiSummarizer:
     def __init__(self, model="gemini-1.5-flash"):
