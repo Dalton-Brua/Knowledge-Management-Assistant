@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/QueryCard.css";
-
+// Hover
 const QueryCard = ({ title, description, onUseQuery }) => {
   return (
     <div className="query-card" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
