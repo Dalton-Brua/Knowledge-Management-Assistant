@@ -102,5 +102,3 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
 ## Always runs the debug server
 if __name__ == "__main__":
     app.run(debug=True)
-
-

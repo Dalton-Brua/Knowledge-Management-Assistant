@@ -1,55 +1,72 @@
+/* General Query Card Styles */
 .query-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+    background-color: #fff; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
     gap: 10px;
-    align-items: center; /* Center content horizontally */
-    justify-content: space-between; /* Evenly space items vertically */
-    height: auto;
-}
-.query-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-.query-card-header {
-    display: flex;
     align-items: center;
-    margin-bottom: 15px;
-}
-
-.query-card-title {
-    font-size: 16px;
+    justify-content: space-between; 
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .query-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15); 
+  }
+  
+  /* Card Title */
+  .query-card-title {
+    font-size: 18px; 
     font-weight: bold;
     color: #333;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.query-card-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-}
-
-.query-card-description {
+    margin-bottom: 10px; 
+  }
+  
+  /* Card Description */
+  .query-card-description {
     font-size: 14px;
-    color: #666;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.action-buttons img {
+    color: #555; 
+    margin-bottom: 20px;
+  }
+  
+  /* Query Card Actions */
+  .query-card-actions {
+    display: flex; 
+    justify-content: center; 
+  }
+  
+  /* Button Styling */
+  .use-query-button {
+    background-color: #d3d3d3; 
+    border: none; 
+    border-radius: 20px; 
+    padding: 10px 20px;
+    font-size: 16px; 
+    font-weight: bold; 
+    color: black; 
+    cursor: pointer; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .use-query-button:hover {
+    background-color: #c0c0c0; 
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3); 
+  }
+  
+  .action-buttons img {
     width: 24px;
     height: 24px;
-    cursor: pointer;
+    cursor: pointer; 
     transition: transform 0.2s ease;
-}
-
-.action-buttons img:hover {
-    transform: scale(1.1);
-}
+  }
+  
+  .action-buttons img:hover {
+    transform: scale(1.1); 
+  }
+  
