@@ -30,7 +30,7 @@ const QueryDashboard = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     query: input,
-                    //user: "testuser", // TODO: Implement a way to hold current user info after login
+                    user: "testuser", // TODO: Implement a way to hold current user info after login
                 }),
             });
 
