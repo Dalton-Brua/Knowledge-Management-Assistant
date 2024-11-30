@@ -1,11 +1,14 @@
-open a new terminal and navigate to Knowledge-Management-Assistant/intellihub
+#### After starting MongoDB and flask app, open a new terminal and navigate to Knowledge-Management-Assistant/intellihub
 
 run: 
 
-npm install
-npm install react-router-dom
-npm install react-icons
-npm start
+### npm install
+
+### npm install react-router-dom
+
+### npm install react-icons
+
+### npm start
 
 ________________________________________________________________________________________________________
 
