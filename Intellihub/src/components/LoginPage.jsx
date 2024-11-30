@@ -5,8 +5,6 @@ import "../styles/LoginPage.css";
 const Login = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [showResetForm, setShowResetForm] = useState(false); // Toggle between login and reset forms
-    const [email, setEmail] = useState(""); // For reset password form
     const navigate = useNavigate();
 
     const handleLogin = () => {
@@ -20,37 +18,12 @@ const Login = ({ setIsAuthenticated }) => {
                 throw new Error("Incorrect password");
             }
             console.log(data);
-            console.log("Authentication approved.");
             setIsAuthenticated(true);
             navigate("/dashboard");
         }).catch(error => {
             console.error("Error fetching data: ", error);
             setIsAuthenticated(false);
         });
-    };
-
-    const handleResetPassword = (e) => {
-        e.preventDefault();
-        console.log("Resetting password for: " + email);
-
-        // TODO: Add backend integration for password reset
-        fetch('http://localhost:5000/resetPassword', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Password reset link sent to your email.");
-                    setShowResetForm(false); // Return to login form
-                } else {
-                    alert("Failed to send reset link. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error("Error resetting password: ", error);
-            });
     };
 
     return (
