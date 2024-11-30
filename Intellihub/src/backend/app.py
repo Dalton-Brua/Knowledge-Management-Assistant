@@ -15,10 +15,6 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-@app.route('/home')
-def home():
-    return "<h1>Hello world!</h1>"
-
 @app.route('/createUser/<username>', methods=['GET'])
 def createUser(username):
     collection = db.users
@@ -42,8 +38,6 @@ def getUserInfo(username):
     doc = collection.find_one({ 'name' : f'{username}' })
     if (doc == None):
         return f"No documents found with username \'{username}\'"
-    print("User found:\n")
-    print(pj.parse_json(doc))
     return pj.parse_json(doc)
 
 ## Gets all users
@@ -51,6 +45,7 @@ def getUserInfo(username):
 def getUsers():
     return pj.parse_json(db.users.find({}))
 
+## Deletes a user
 @app.route('/deleteUser', methods=['POST'])
 def deleteUser():
     user = request.get_json
@@ -79,6 +74,7 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         return jsonify({"error": "Invalid request. Query is missing."}), 400
 
     query = data['query']
+    user = data.get('user', 'unknown') # Default to 'unknown' if no user is provided
     timestamp = datetime.now().isoformat() # Save when query is submitted
 
     try:
@@ -98,6 +94,7 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         # Save the query, timestamp, and response in MongoDB
         log_entry = {
             "query": query,
+            "user": user,
             "timestamp": timestamp,
             "response": summary_data.get("response", "No response available."),
         }

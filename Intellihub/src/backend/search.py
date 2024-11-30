@@ -11,7 +11,6 @@ load_dotenv()
 API_KEY = os.getenv('SEARCH_API_KEY')
 SEARCH_ENGINE_ID = os.getenv('SEARCH_ENGINE_ID')
 
-
 def search(query, num_results=10, output_file="search_results.json"):
     try:
         service = build("customsearch", "v1", developerKey=API_KEY) # Builds Google Custom Search API service
