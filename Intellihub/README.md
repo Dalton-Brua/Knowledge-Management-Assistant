@@ -1,3 +1,14 @@
+open a new terminal and navigate to Knowledge-Management-Assistant/intellihub
+
+run: 
+
+npm install
+npm install react-router-dom
+npm install react-icons
+npm start
+
+________________________________________________________________________________________________________
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
