@@ -15,20 +15,16 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-@app.route('/createUser/<username>', methods=['GET'])
-def createUser(username):
+@app.route('/createUser', methods=['POST'])
+def createUser():
     collection = db.users
+    user = request.get_json()
 
     #hash = SHA256.new()
     #hash.update(password)
     #hash.digest()
-    post = {
-            "name": f"{escape(username)}",
-            "pass": f"{escape(username)}1",
-            "role": "admin"
-        }
-    result = collection.insert_one(post)
-    return 'Inserted document with id: {}'.format(result.inserted_id)
+    result = collection.insert_one(user)
+    return pj.parse_json(db.users.find({}))
 
 ## Gets a specific user profile
 @app.route('/getUserInfo/<username>', methods=['GET'])
