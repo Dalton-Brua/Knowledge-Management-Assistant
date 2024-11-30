@@ -10,7 +10,6 @@ const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
                     <tr>
                         <th className="username-column">Username</th>
                         <th className="role-column">Role</th>
-                        <th className="status-column">Status</th>
                         <th className="actions-column">Actions</th>
                     </tr>
                 </thead>
@@ -23,9 +22,6 @@ const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
                             <td className="actions-column">
                                 <ActionsCell
                                     onEdit={() => onEditUser(user)}
-                                    onDeactivate={() =>
-                                        onEditUser({ ...user, status: user.status === "Active" ? "Inactive" : "Active" })
-                                    }
                                     onDelete={() => onDeleteUser(user)}
                                 />
                             </td>

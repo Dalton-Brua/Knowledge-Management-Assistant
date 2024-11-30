@@ -30,7 +30,7 @@ const QueryDashboard = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     query: input,
-                    //user: "testuser", // TODO: Implement a way to hold current user info after login
+                    user: "testuser", // TODO: Implement a way to hold current user info after login
                 }),
             });
 
@@ -79,9 +79,23 @@ const QueryDashboard = () => {
             </div>
 
             <div className="query-results-container">
-                {queries.map((query, index) => (
+                {queries.map((queryItem, index) => (
                     <div key={index} className="query-result-card">
-                        <p>{query}</p>
+                        <p><strong>Query:</strong> {queryItem.query}</p>
+                        <p><strong>Response:</strong> {Array.isArray(queryItem.response) ? (
+                            <ul>
+                                {queryItem.response.map((res, i) => (
+                                    <li key={i}>
+                                        <strong>Link:</strong> <a href={res.link} target="_blank" rel="noopener noreferrer">{res.link}</a>
+                                        <br />
+                                        <strong>Summary:</strong> {res.summary}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            queryItem.response
+                        )}</p>
+                        <p><small><strong>Timestamp:</strong> {queryItem.timestamp}</small></p>
                     </div>
                 ))}
             </div>
