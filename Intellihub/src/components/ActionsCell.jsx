@@ -7,9 +7,6 @@ const ActionsCell = ({ onEdit, onDeactivate, onDelete }) => {
             <button className="edit-button" onClick={onEdit}>
                 Edit
             </button>
-            <button className="deactivate-button" onClick={onDeactivate}>
-                Deactivate
-            </button>
             <button className="delete-button" onClick={onDelete}>
                 Delete
             </button>
