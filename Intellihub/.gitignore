@@ -5,12 +5,14 @@
 /.pnp
 .pnp.js
 .venv
+.env
 __pycache__
 .env
 
 
 # testing
 /coverage
+
 
 # production
 /build
@@ -21,6 +23,7 @@ __pycache__
 .env.development.local
 .env.test.local
 .env.production.local
+.json
 
 npm-debug.log*
 yarn-debug.log*
