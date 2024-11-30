@@ -68,17 +68,15 @@ const AdminPanel = () => {
 
     const handleDeleteUser = (userDelete) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userDelete.id));
-        // fetch('http://localhost:5000/deleteUser', {
-        //     method: "POST",
-        //     headers: {
-        //         "Accept": "application/json",
-        //         "Content-Type": 'application/json'
-        //     },
-        //     body: { userDelete }
+        console.log(userDelete.name)
+        fetch('http://localhost:5000/deleteUser', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: userDelete.name })
             
-        // }).then(res => res.json()).then(data => {
-        //     setUsers(data);
-        // })
+        }).then(res => res.json()).then(data => {
+            setUsers(data);
+        })
     };
 
     useEffect(() => {

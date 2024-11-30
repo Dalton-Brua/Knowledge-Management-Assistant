@@ -48,11 +48,12 @@ def getUsers():
 ## Deletes a user
 @app.route('/deleteUser', methods=['POST'])
 def deleteUser():
-    user = request.get_json
+    data = request.get_json()
+    user = data['username']
     collection = db.users
-    collection.delete_one(user)
+    collection.delete_one({'name': user})
 
-    return pj.parse_json(db.users.find({}))
+    return pj.parse_json(db.users.find({})), 200
 
 ## Retrieves all queries and sorts by most recent
 @app.route('/getAllQueries', methods=['GET'])
