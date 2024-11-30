@@ -1,15 +1,12 @@
 import React from "react";
 import "../styles/QueryCard.css";
 
-const QueryCard = ({ title, description, onUseQuery }) => {
+const QueryCard = ({ title, description }) => {
   return (
-    <div className="query-card" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-      <h3 className="query-card-title">{title}</h3>
-      <p className="query-card-description">{description}</p>
-      <div className="query-card-actions">
-        <button className="use-query-button" onClick={onUseQuery}>Use Query</button>
+      <div className="query-card">
+          <h3 className="query-card-title">{title}</h3>
+          <p className="query-card-description">{description}</p>
       </div>
-    </div>
   );
 };
 
