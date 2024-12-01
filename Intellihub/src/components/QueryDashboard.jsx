@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import QueryCard from "./QueryCard";
 import "../styles/QueryDashboard.css";
 
@@ -8,17 +8,16 @@ const QueryDashboard = () => {
     const [loading, setLoading] = useState(false);
 
     let user = sessionStorage.getItem('name');
-    const userRef = useRef(user);
     useEffect(() => {
         fetch("http://localhost:5000/getLatestQueries", {
             method: "POST",
             headers: { "Content-Type": "application/json"},
-            body: JSON.stringify({ userRef })
+            body: JSON.stringify({ user })
         }
         ).then(res => res.json()).then(data => {
             setQueries(data);
         })
-    }, []);
+    }, [user]);
 
     const handleSendQuery = async () => { // TODO: Implement a way to modify query after submitting
         if (input.trim() === "") { // TODO: Handle other invalid queries
