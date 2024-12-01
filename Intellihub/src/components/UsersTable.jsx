@@ -18,7 +18,6 @@ const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
                         <tr key={user.id}>
                             <td className="username-column">{user.name}</td>
                             <td className="role-column">{user.role}</td>
-                            <td className="status-column">{user.status}</td>
                             <td className="actions-column">
                                 <ActionsCell
                                     onEdit={() => onEditUser(user)}

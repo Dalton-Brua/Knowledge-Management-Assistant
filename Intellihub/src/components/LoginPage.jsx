@@ -19,6 +19,8 @@ const Login = ({ setIsAuthenticated }) => {
             }
             console.log(data);
             setIsAuthenticated(true);
+            sessionStorage.setItem('role', data.role);
+            sessionStorage.setItem('name', data.name);
             navigate("/dashboard");
         }).catch(error => {
             console.error("Error fetching data: ", error);
@@ -35,38 +37,7 @@ const Login = ({ setIsAuthenticated }) => {
                     alt="Logo"
                     className="logo"
                 />
-                <h1 className="login-title">
-                    {showResetForm ? "Reset Password" : "Sign In"}
-                </h1>
-
-                {showResetForm ? (
-                    // Reset Password Form
-                    <form
-                        className="reset-form"
-                        onSubmit={handleResetPassword}
-                    >
-                        <div className="input-group">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                required
-                                className="login-input"
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <button type="submit" className="login-button">
-                            Reset Password
-                        </button>
-                        <p
-                            className="reset-password back-to-login"
-                            onClick={() => setShowResetForm(false)}
-                        >
-                            Back to Sign In
-                        </p>
-                    </form>
-                ) : (
-                    // Login Form
-                    <form
+                    <form // Login Form
                         className="login-form"
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -93,7 +64,6 @@ const Login = ({ setIsAuthenticated }) => {
                         </div>
                         <p
                             className="reset-password"
-                            onClick={() => setShowResetForm(true)}
                         >
                             Reset password
                         </p>
@@ -101,7 +71,6 @@ const Login = ({ setIsAuthenticated }) => {
                             Submit
                         </button>
                     </form>
-                )}
             </div>
         </div>
     );

@@ -38,16 +38,11 @@
 
 /* Column Width Adjustments */
 .username-column {
-    width: 30%; /* Largest column for username */
+    width: 35%; /* Largest column for username */
 }
 
 .role-column {
-    width: 20%; /* Medium width for role */
-    text-align: center;
-}
-
-.status-column {
-    width: 15%; /* Smaller width for status */
+    width: 25%; /* Medium width for role */
     text-align: center;
 }
 
