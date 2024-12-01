@@ -27,9 +27,10 @@ def createUser():
     return pj.parse_json(db.users.find({})), 200
 
 ## Gets a specific user profile
-@app.route('/getUserInfo/<username>', methods=['GET'])
-def getUserInfo(username):
-
+@app.route('/getUserInfo', methods=['POST'])
+def getUserInfo():
+    data = request.get_json()
+    username = data['name']
     collection = db.users
     doc = collection.find_one({ 'name' : f'{username}' })
     if (doc == None):

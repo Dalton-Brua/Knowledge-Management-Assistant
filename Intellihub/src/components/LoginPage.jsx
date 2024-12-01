@@ -8,9 +8,12 @@ const Login = ({ setIsAuthenticated }) => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        console.log("Login: " + username);
 
-        fetch('http://localhost:5000/getUserInfo/' + username).then(res => res.json()).then(data => {
+        fetch('http://localhost:5000/getUserInfo', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: username, }),
+        }).then(res => res.json()).then(data => {
             // TODO: IMPLEMENT PASSWORD HASHING AND CHECKING
             if (data.pass !== password) {
                 throw new Error("Incorrect password");
