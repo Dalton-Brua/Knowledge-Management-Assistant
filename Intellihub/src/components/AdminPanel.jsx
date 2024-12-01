@@ -110,7 +110,6 @@ const AdminPanel = () => {
                     onEditUser={handleEditUser}
                     onDeleteUser={handleDeleteUser}
                 />
-                <CardContainer />
 
                 {isModalOpen && (
                     <div className="modal-overlay">
