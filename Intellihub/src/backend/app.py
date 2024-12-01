@@ -24,7 +24,7 @@ def createUser():
     #hash.update(password)
     #hash.digest()
     result = collection.insert_one(user)
-    return pj.parse_json(db.users.find({}))
+    return pj.parse_json(db.users.find({})), 200
 
 ## Gets a specific user profile
 @app.route('/getUserInfo/<username>', methods=['GET'])
@@ -33,7 +33,7 @@ def getUserInfo(username):
     collection = db.users
     doc = collection.find_one({ 'name' : f'{username}' })
     if (doc == None):
-        return f"No documents found with username \'{username}\'"
+        return f"No documents found with username \'{username}\'", 200
     return pj.parse_json(doc)
 
 ## Gets all users
@@ -57,9 +57,11 @@ def getQueries():
     return pj.parse_json(db.queries.find().sort({"timestamp": -1}))
 
 ## Retrieves 3 most recent queries
-@app.route('/getLatestQueries', methods=['GET'])
+@app.route('/getLatestQueries', methods=['POST'])
 def getLatestQueries():
-    return pj.parse_json(db.queries.find().sort({"timestamp": -1}).limit(3))
+    data = request.get_json()
+    user = data['user']
+    return pj.parse_json(db.queries.find({'user': user}).sort({"timestamp": -1}).limit(3))
 
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
@@ -72,7 +74,7 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
 
     query = data['query']
     user = data.get('user', 'unknown') # Default to 'unknown' if no user is provided
-    timestamp = datetime.now().isoformat() # Save when query is submitted
+    timestamp = data['timestamp'] # Save when query is submitted
 
     try:
         # Perform Google Search

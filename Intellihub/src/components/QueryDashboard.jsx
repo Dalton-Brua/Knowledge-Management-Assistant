@@ -8,8 +8,14 @@ const QueryDashboard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    let user = sessionStorage.getItem('name');
     useEffect(() => {
-        fetch("http://localhost:5000/getLatestQueries").then(res => res.json()).then(data => {
+        fetch("http://localhost:5000/getLatestQueries", {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify({ user })
+        }
+        ).then(res => res.json()).then(data => {
             setQueries(data);
         })
     }, []);
@@ -19,18 +25,24 @@ const QueryDashboard = () => {
             setError("Please enter a valid query.");
             return;
         }
-
+        
+        var toQuery = input
+        var time = new Date().toLocaleString()
+        
+        setInput(""); // Clear input field
         setError(""); // Clear any previous errors
         setLoading(true); // Show loading indicator
 
         try {
             // Send query to backend
+            let currUser = sessionStorage.getItem('name');
             const response = await fetch("http://localhost:5000/query", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    query: input,
-                    user: "testuser", // TODO: Implement a way to hold current user info after login
+                    query: toQuery,
+                    user: currUser, // TODO: Implement a way to hold current user info after login
+                    timestamp: time,
                 }),
             });
 
@@ -46,11 +58,9 @@ const QueryDashboard = () => {
                 {
                     query: input,
                     response: data.response || "No response received",
-                    timestamp: new Date().toLocaleString(),
+                    timestamp: time,
                 },
             ]);
-
-            setInput(""); // Clear the input field
         } catch (err) {
             console.error(err);
             setError("An error occurred while processing your query.");
@@ -110,7 +120,7 @@ const QueryDashboard = () => {
                     onKeyDown={(e) => e.key === "Enter" && handleSendQuery()}
                 />
                 <button className="send-button" onClick={handleSendQuery}>
-                ✈
+                    {loading ? "⏳" : "✈"}
                 </button>
             </div>
         </div>
