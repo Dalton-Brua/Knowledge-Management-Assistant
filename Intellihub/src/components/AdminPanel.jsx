@@ -7,9 +7,9 @@ const AdminPanel = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [username, setUsername] = useState("");
+    const [oldUsername, setOldUsername] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("Admin");
-    const [isActive, setIsActive] = useState(true);
     const [editUserId, setEditUserId] = useState(null);
 
     const openModal = () => setIsModalOpen(true);
@@ -22,7 +22,6 @@ const AdminPanel = () => {
         setUsername("");
         setPassword("");
         setRole("Admin");
-        setIsActive(true);
         setEditUserId(null);
     };
 
@@ -32,13 +31,20 @@ const AdminPanel = () => {
         if (!username.trim() || !password.trim()) return;
 
         if (editUserId) {
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === editUserId
-                        ? { ...user, name: username, password, role, status: isActive ? "Active" : "Inactive" }
-                        : user
-                )
-            );
+            fetch('http://localhost:5000/editUser', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    oldUser: oldUsername,
+                    newUser: {
+                        name: username,
+                        pass: password,
+                        role: role
+                    }
+                })
+            }).then(res => res.json()).then(data => {
+                setUsers(data);
+            });
         } else {
             fetch('http://localhost:5000/createUser', {
                 method: "POST",
@@ -57,11 +63,19 @@ const AdminPanel = () => {
     };
 
     const handleEditUser = (user) => {
-        setEditUserId(user.id);
-        setUsername(user.name);
-        setPassword(user.password); // Pre-fill password for editing
-        setRole(user.role);
-        setIsActive(user.status === "Active");
+        fetch('http://localhost:5000/getUserInfo', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: user.name, }),
+        }).then(res => res.json()).then(data => {
+
+            setUsername(data.name);
+            setOldUsername(data.name);
+            setPassword(data.pass);
+            setRole(data.role);
+
+        });
+        setEditUserId(true);
         openModal();
     };
 

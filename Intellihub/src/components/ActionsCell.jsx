@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/ActionsCell.css";
 
-const ActionsCell = ({ onEdit, onDeactivate, onDelete }) => {
+const ActionsCell = ({ onEdit, onDelete }) => {
     return (
         <div className="actions-cell">
             <button className="edit-button" onClick={onEdit}>

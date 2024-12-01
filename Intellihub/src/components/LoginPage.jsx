@@ -14,7 +14,7 @@ const Login = ({ setIsAuthenticated }) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: username, }),
         }).then(res => res.json()).then(data => {
-            // TODO: IMPLEMENT PASSWORD HASHING AND CHECKING
+            
             if (data.pass !== password) {
                 throw new Error("Incorrect password");
             }

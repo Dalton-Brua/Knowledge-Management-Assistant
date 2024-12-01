@@ -7,7 +7,6 @@ import json
 import parse_json as pj
 import search as google
 from gemini_api import GeminiSummarizer
-#from Crypto.Hash import SHA256
 
 app = Flask(__name__)
 CORS(app)
@@ -20,9 +19,6 @@ def createUser():
     collection = db.users
     user = request.get_json()
 
-    #hash = SHA256.new()
-    #hash.update(password)
-    #hash.digest()
     result = collection.insert_one(user)
     return pj.parse_json(db.users.find({})), 200
 
@@ -52,10 +48,21 @@ def deleteUser():
 
     return pj.parse_json(db.users.find({})), 200
 
+## Changes user attributes
+@app.route('/editUser', methods=['POST'])
+def editUser():
+    data = request.get_json()
+    oldUser = data['oldUser']
+    newUser = data['newUser']
+    collection = db.users
+    collection.replace_one({ "name": oldUser }, newUser)
+
+    return pj.parse_json(db.users.find({}))
+
 ## Retrieves all queries and sorts by most recent
 @app.route('/getAllQueries', methods=['GET'])
 def getQueries():
-    return pj.parse_json(db.queries.find().sort({"timestamp": -1}))
+    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1}))
 
 ## Retrieves 3 most recent queries
 @app.route('/getLatestQueries', methods=['POST'])

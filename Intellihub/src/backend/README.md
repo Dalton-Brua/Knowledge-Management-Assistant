@@ -13,8 +13,6 @@ For first time running:
 
 ### pip install flask-CORS
 
-### pip install pycryptodome
-
 ### pip install google-api-python-client
 
 ### pip install google.generativeai
