@@ -40,13 +40,6 @@ const AdminPanel = () => {
                 )
             );
         } else {
-            const newUser = {
-                id: Date.now(),
-                name: username,
-                password,
-                role,
-                status: isActive ? "Active" : "Inactive",
-            };
             fetch('http://localhost:5000/createUser', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

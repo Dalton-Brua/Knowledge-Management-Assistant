@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import QueryCard from "./QueryCard";
 import "../styles/QueryDashboard.css";
 
@@ -6,14 +6,14 @@ const QueryDashboard = () => {
     const [queries, setQueries] = useState([]); // Stores query and response objects
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
 
     let user = sessionStorage.getItem('name');
+    const userRef = useRef(user);
     useEffect(() => {
         fetch("http://localhost:5000/getLatestQueries", {
             method: "POST",
             headers: { "Content-Type": "application/json"},
-            body: JSON.stringify({ user })
+            body: JSON.stringify({ userRef })
         }
         ).then(res => res.json()).then(data => {
             setQueries(data);
@@ -22,7 +22,6 @@ const QueryDashboard = () => {
 
     const handleSendQuery = async () => { // TODO: Implement a way to modify query after submitting
         if (input.trim() === "") { // TODO: Handle other invalid queries
-            setError("Please enter a valid query.");
             return;
         }
         
@@ -30,7 +29,6 @@ const QueryDashboard = () => {
         var time = new Date().toLocaleString()
         
         setInput(""); // Clear input field
-        setError(""); // Clear any previous errors
         setLoading(true); // Show loading indicator
 
         try {
@@ -63,7 +61,6 @@ const QueryDashboard = () => {
             ]);
         } catch (err) {
             console.error(err);
-            setError("An error occurred while processing your query.");
         } finally {
             setLoading(false);
         }
