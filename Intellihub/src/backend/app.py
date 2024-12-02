@@ -81,7 +81,7 @@ def editQuery():
     user = data ['user']
     timestamp = data['timestamp']
 
-    db.queries.delete_one(db.queries.find({'query': oldQuery}))
+    db.queries.delete_one({'query': oldQuery})
     # Perform Google Search
     search_output_file = "search_results.json"
     google.search(newQuery, num_results=10, output_file=search_output_file)
@@ -89,7 +89,7 @@ def editQuery():
     # Summarize search results
     summary_output_file = "summary_results.json"
     summarizer = GeminiSummarizer()
-    summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=query)
+    summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=newQuery)
 
     # Get summary result
     with open(summary_output_file, "r") as f:
@@ -104,8 +104,15 @@ def editQuery():
     }
     db.queries.insert_one(log_entry)
 
-    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1}))
+    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1})), 200
 
+## Deletes a query
+@app.route('/deleteQuery', methods=['POST'])
+def deleteQuery():
+    data = request.get_json()
+    query = data['query']
+    db.queries.delete_one({'query': query})
+    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1})), 200
 
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
