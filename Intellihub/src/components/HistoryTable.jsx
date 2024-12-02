@@ -49,6 +49,7 @@ export const HistoryTable = ({ isAdmin }) => {
                 setTableData(data);
             });
         }
+    };
 
     const deleteQuery = (query) => {
         console.log("Delete query:", query);
