@@ -84,6 +84,7 @@ export const HistoryTable = ({ isAdmin }) => {
                 value = {searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
             />
+            <h4>Filter Type</h4>
             <FilterDropdown
                 filterType={filterType}
                 setFilterType={setFilterType}
