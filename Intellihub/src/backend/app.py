@@ -7,6 +7,7 @@ import json
 import parse_json as pj
 import search as google
 from gemini_api import GeminiSummarizer
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -70,6 +71,41 @@ def getLatestQueries():
     data = request.get_json()
     user = data['user']
     return pj.parse_json(db.queries.find({'user': user}).sort({"timestamp": -1}).limit(3))
+
+## Takes an old query and changes it
+@app.route('/editQuery', methods=['POST'])
+def editQuery():
+    data = request.get_json()
+    oldQuery = data['oldQuery']
+    newQuery = data['newQuery']
+    user = data ['user']
+    timestamp = data['timestamp']
+
+    db.queries.delete_one(db.queries.find({'query': oldQuery}))
+    # Perform Google Search
+    search_output_file = "search_results.json"
+    google.search(newQuery, num_results=10, output_file=search_output_file)
+
+    # Summarize search results
+    summary_output_file = "summary_results.json"
+    summarizer = GeminiSummarizer()
+    summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=query)
+
+    # Get summary result
+    with open(summary_output_file, "r") as f:
+        summary_data = json.load(f)
+
+    # Save the query, timestamp, and response in MongoDB
+    log_entry = {
+        "query": newQuery,
+        "user": user,
+        "timestamp": timestamp,
+        "response": summary_data.get("response", "No response available."),
+    }
+    db.queries.insert_one(log_entry)
+
+    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1}))
+
 
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting

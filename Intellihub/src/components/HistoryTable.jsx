@@ -4,6 +4,9 @@ import "../styles/HistoryTable.css";
 import ActionsCell from "./ActionsCell";
 
 export const HistoryTable = ({ isAdmin }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [oldQuery, setOldQuery] = useState("");
+    const [newQuery, setNewQuery] = useState("");
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -12,7 +15,31 @@ export const HistoryTable = ({ isAdmin }) => {
         })
     }, []);
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        resetForm();
+    };
+
+    const resetForm = () => {
+        setNewQuery("");
+        setOldQuery("");
+    };
+
     const editQuery = (query) => {
+        if (!isModalOpen) {
+            setOldQuery(query);
+            setIsModalOpen(true);
+        } else {
+            // let user = sessionStorage.getItem('name');
+            let timestamp = new Date().toLocaleString();
+            fetch("http://localhost:5000/editQuery", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({"oldQuery": oldQuery, "newQuery": newQuery, /*"user": user,*/ "timestamp": timestamp}),
+            }).then(res => res.json()).then(data => {
+                setTableData(data);
+            });
+        }
 
     }
     const deleteQuery = (query) => {
@@ -50,6 +77,40 @@ export const HistoryTable = ({ isAdmin }) => {
                     ))}
                 </tbody>
             </table>
+            {isModalOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <h2>Edit Query</h2>
+                            <form onSubmit={editQuery}>
+                                <div className="form-group">
+                                    <label>Old Query</label>
+                                    <h5>{oldQuery}</h5>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="newQuery">New Query</label>
+                                    <input
+                                        value={newQuery}
+                                        onChange={(e) => setNewQuery(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-actions">
+                                    <button type="submit" className="submit-btn">
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="cancel-btn"
+                                        onClick={closeModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
         </div>
+        
     );
 };
