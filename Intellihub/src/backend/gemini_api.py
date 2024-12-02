@@ -3,6 +3,7 @@ import requests
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+import find_similar as fs
 
 # TODO: store environment variables
 load_dotenv()
@@ -20,6 +21,15 @@ class GeminiSummarizer:
 
             combined_content = f"Query: {query}\n\nRelevant information from search results:\n"
 
+            # Check for similar query and response
+            similar_query = fs.find_similar(query)
+            if (similar_query != None):
+                similar_query_name = similar_query.get("query")
+                similar_query_response = similar_query.get("response")
+            else:
+                similar_query_name = "No similar query exists. Do not include in summary."
+                similar_query_response = "No similar response exists. Do not include in summary."
+
             # Combine snippets and titles for all results
             for result in search_results:
                 title = result.get("title", "No title provided")
@@ -30,8 +40,9 @@ class GeminiSummarizer:
 
             # Request a single summary from the model
             content_to_summarize = (
-                f"{combined_content}\n\nBased on the provided information, "
-                f"Summarize the content relevant to the query with 400 words or less:{query}"
+                f"{combined_content}\n\nBased on the provided information while taking while taking into account this similar query and response, if it exists:"
+                f"\n\n Similar query name: {similar_query_name} and its response: {similar_query_response}"
+                f"Summarize the content relevant to the query with 400 words or less in a professional manner, avoiding direct mentions to the documents :{query}"
             )
 
             try:
