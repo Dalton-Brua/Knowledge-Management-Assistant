@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { FiHome, FiFileText, FiSettings, FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Logo.png";
@@ -6,10 +7,15 @@ import "../styles/SideNav.css";
 
 const SideNav = () => {
     const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
+    useEffect(() => {
+            if (sessionStorage.getItem("role") == "Admin") {
+            setIsAdmin(true);
+        }
+    }, [])
 
     const handleLogout = () => {
         // Clear authentication tokens or session data
-        localStorage.removeItem("authToken"); // Example: Clear token from storage
         sessionStorage.clear(); // Clear session storage if applicable
 
         // Redirect to the login page
@@ -33,10 +39,12 @@ const SideNav = () => {
                     <FiFileText className="nav-icon" />
                     <span className="nav-text">Saved Queries</span>
                 </div>
-                <div className="nav-item" onClick={() => navigate("/admin")}>
-                    <FiSettings className="nav-icon" />
-                    <span className="nav-text">Settings</span>
-                </div>
+                {isAdmin && (
+                    <div className="nav-item" onClick={() => navigate("/admin")}>
+                        <FiSettings className="nav-icon" />
+                        <span className="nav-text">Settings</span>
+                    </div>
+                )}
             </div>
 
             {/* Logout Button */}

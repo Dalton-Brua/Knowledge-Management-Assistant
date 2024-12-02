@@ -1,13 +1,16 @@
 import json
 import requests
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
 # TODO: store environment variables
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
+load_dotenv()
+google_api_key = os.getenv('GOOGLE_API_KEY')
 
 class GeminiSummarizer:
-    def __init__(self, api_key=google_api_key, model="gemini-1.5-flash"):
-        genai.configure(api_key=api_key)
+    def __init__(self, model="gemini-1.5-flash"):
+        genai.configure(api_key=google_api_key)
         self.model = model
 
     def summarize_results(self, input_file, output_file, query):
@@ -28,7 +31,7 @@ class GeminiSummarizer:
             # Request a single summary from the model
             content_to_summarize = (
                 f"{combined_content}\n\nBased on the provided information, "
-                f"Summarize the content relevant to the query with 250 words or less:{query}"
+                f"Summarize the content relevant to the query with 400 words or less:{query}"
             )
 
             try:

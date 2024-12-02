@@ -1,67 +1,55 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import "../styles/HistoryTable.css";
+import ActionsCell from "./ActionsCell";
 
-export const HistoryTable = () => {
-    // Example data structure
-    const tableData = [
-        {
-            query: "Common patterns in customer feedback from the past year",
-            date: "11/12/2024",
-            user: "User2033434675",
-        },
-        {
-            query: "Summary of recent advancements in renewable energy technology",
-            date: "11/12/2024",
-            user: "User2033493438",
-        },
-        {
-            query: "Current landscape of e-commerce market trends in Asia",
-            date: "11/10/2024",
-            user: "User2033492066",
-        },
-        {
-            query: "5-year evolution of the demand for data security solutions",
-            date: "11/9/2024",
-            user: "User2033492236",
-        },
-        {
-            query: "Previous quarterly analysis of remote work productivity",
-            date: "11/6/2024",
-            user: "User2033499034",
-        },
-        {
-            query: "Latest news articles about emerging blockchain technology",
-            date: "11/6/2024",
-            user: "User2033494573",
-        },
-        {
-            query: "Latest AI trends in healthcare",
-            date: "11/6/2024",
-            user: "User2033492034",
-        },
-        {
-            query: "How should I structure a database schema for a healthcare website?",
-            date: "11/3/2024",
-            user: "User2033493433",
-        },
-    ];
+export const HistoryTable = ({ isAdmin }) => {
+
+    const [tableData, setTableData] = useState([]);
+    useEffect(() => {
+        fetch("http://localhost:5000/getAllQueries").then(res => res.json()).then(data => {
+            setTableData(data);
+        })
+    }, []);
+
+    const editQuery = (query) => {
+
+    }
+    const deleteQuery = (query) => {
+
+    }
+    const showQuery = (query) => {
+
+    }
 
     return (
-        <div className="history-table">
-            <div className="table-header">
-                <div className="header-cell">Query</div>
-                <div className="header-cell">Date</div>
-                <div className="header-cell">User</div>
-            </div>
-            <div className="table-body">
-                {tableData.map((row, index) => (
-                    <div key={index} className="table-row">
-                        <div className="table-cell">{row.query}</div>
-                        <div className="table-cell">{row.date}</div>
-                        <div className="table-cell">{row.user}</div>
-                    </div>
-                ))}
-            </div>
+        <div className="history-table-container">
+            <table className="history-table">
+                <thead>
+                    <tr className="table-header">
+                        <th className="header-cell">Query</th>
+                        <th className="header-cell">Date</th>
+                        <th className="header-cell">User</th>
+                        <th className="header-cell">Actions</th>
+                    </tr>
+                </thead>
+                <tbody className="table-body">
+                    {tableData.map((row, index) => (
+                        <tr key={index} className="table-row" onClick={showQuery(row)}>
+                            <td className="table-cell">{row.query}</td>
+                            <td className="table-cell">{row.timestamp}</td>
+                            <td className="table-cell">{row.user}</td>
+                            <td className="table-cell">
+                                <ActionsCell
+                                    onEdit={() => editQuery(row.query)}
+                                    onDelete={() => deleteQuery(row.query)}
+                                    isAdmin={isAdmin}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

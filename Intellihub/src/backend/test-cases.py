@@ -1,9 +1,16 @@
 from search import search
+<<<<<<< HEAD
 from gemini_api import GeminiSummarizer
+=======
+from gemini_api import GeminiSeummarizer
+from dotenv import load_dotenv
+import os
+>>>>>>> main
 
-API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
-SEARCH_ENGINE_ID = '0546012e6548e4e3f'
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
+load_dotenv()
+API_KEY = os.getenv('SEARCH_API_KEY')
+SEARCH_ENGINE_ID = os.getenv('SEARCH_ENGINE_ID')
+google_api_key = os.getenv('GOOGLE_API_KEY')
 
 # Test Query
 query = "Best Black Friday Deals"
