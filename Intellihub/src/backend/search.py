@@ -23,13 +23,7 @@ def search(query, num_results=10, output_file="search_results.json"):
             )
             results.extend(response.get("items", []))
         with open(output_file, "w") as file: # Saves results to JSON file
-            json.dump(results, file, indent=4)  #TODO: Use links from each result and insert into AI service to summarize and analyze results for a response
+            json.dump(results, file, indent=4)
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Test usage
-if __name__ == "__main__":
-    # Test query
-   query = "Best Black Friday Deals" #TODO: Connect with frontend to get query from dashboard search form.
-    
-    search(query, num_results=20)
