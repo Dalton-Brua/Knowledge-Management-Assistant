@@ -34,21 +34,23 @@ export const HistoryTable = ({ isAdmin }) => {
         }));
     };
 
+    const handleEditQuery = () => {
+        let user = sessionStorage.getItem('name');
+        let timestamp = new Date().toLocaleString();
+        fetch("http://localhost:5000/editQuery", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "oldQuery": oldQuery, "newQuery": newQuery, "user": user, "timestamp": timestamp }),
+        }).then(res => res.json()).then(data => {
+            setTableData(data);
+        });
+
+        closeModal()
+    }
+
     const editQuery = (query) => {
-        if (!isModalOpen) {
-            setOldQuery(query);
-            setIsModalOpen(true);
-        } else {
-            let user = sessionStorage.getItem('name');
-            let timestamp = new Date().toLocaleString();
-            fetch("http://localhost:5000/editQuery", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "oldQuery": oldQuery, "newQuery": newQuery, "user": user, "timestamp": timestamp }),
-            }).then(res => res.json()).then(data => {
-                setTableData(data);
-            });
-        }
+        setOldQuery(query);
+        setIsModalOpen(true);
     };
 
     const deleteQuery = (query) => {
@@ -109,7 +111,7 @@ export const HistoryTable = ({ isAdmin }) => {
                     <div className="modal-overlay">
                         <div className="modal">
                             <h2>Edit Query</h2>
-                            <form onSubmit={editQuery}>
+                            <form onSubmit={handleEditQuery}>
                                 <div className="form-group">
                                     <label>Old Query</label>
                                     <h5>{oldQuery}</h5>
