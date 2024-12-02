@@ -1,11 +1,15 @@
 import React from "react";
 import "../styles/SearchBar.css";
 
-const SearchBar = ({ placeholder }) => {
+const SearchBar = ({ placeholder, value, onChange }) => {
     return (
         <div className="search-bar">
-            <input type="text" className="search-input" placeholder={placeholder} />
-            <button className="search-icon">🔍</button> {/* Replace with SVG or icon library */}
+            <input type="text"
+            className="search-input"
+            placeholder={placeholder}
+            value = {value || ""}
+            onChange = {onChange}
+            />
         </div>
     );
 };

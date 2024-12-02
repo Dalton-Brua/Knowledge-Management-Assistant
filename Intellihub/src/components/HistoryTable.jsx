@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../styles/HistoryTable.css";
 import ActionsCell from "./ActionsCell";
+import SearchBar from "./SearchBar";
+import FilterDropdown from "./FilterDropdown";
 
 export const HistoryTable = ({ isAdmin }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -8,14 +10,26 @@ export const HistoryTable = ({ isAdmin }) => {
     const [newQuery, setNewQuery] = useState("");
     const [tableData, setTableData] = useState([]);
     const [expandedRows, setExpandedRows] = useState({}); 
+    const [filteredData, setFilteredData] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [filterType, setFilterType] = useState("query");
 
     useEffect(() => {
         fetch("http://localhost:5000/getAllQueries")
             .then((res) => res.json())
             .then((data) => {
                 setTableData(data);
+                setFilteredData(data);
             });
     }, []);
+
+    useEffect(() => {
+        const filtered = tableData.filter((row) => {
+            const value = row[filterType]?.toString().toLowerCase();
+            return value.includes(searchInput.toLowerCase());
+        });
+        setFilteredData(filtered);
+    }, [searchInput, filterType, tableData]);
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -65,6 +79,15 @@ export const HistoryTable = ({ isAdmin }) => {
 
     return (
         <div className="history-table-container">
+            <SearchBar 
+                placeholder = "Search query by filter"
+                value = {searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <FilterDropdown
+                filterType={filterType}
+                setFilterType={setFilterType}
+            ></FilterDropdown>
             <table className="history-table">
                 <thead>
                     <tr className="table-header">
@@ -75,7 +98,7 @@ export const HistoryTable = ({ isAdmin }) => {
                     </tr>
                 </thead>
                 <tbody className="table-body">
-                    {tableData.map((row, index) => (
+                    {filteredData.map((row, index) => (
                         <React.Fragment key={index}>
                             {/* Main row */}
                             <tr
