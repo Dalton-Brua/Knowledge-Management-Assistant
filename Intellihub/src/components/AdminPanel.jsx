@@ -4,6 +4,7 @@ import CardContainer from "./CardContainer";
 import "../styles/AdminPanel.css";
 
 const AdminPanel = () => {
+    let isAdmin = false;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [username, setUsername] = useState("");
@@ -11,6 +12,10 @@ const AdminPanel = () => {
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("Admin");
     const [editUserId, setEditUserId] = useState(null);
+    
+    if (sessionStorage.getItem('role') == "Admin") {
+        isAdmin = true;
+    }
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
@@ -109,6 +114,7 @@ const AdminPanel = () => {
                     users={users}
                     onEditUser={handleEditUser}
                     onDeleteUser={handleDeleteUser}
+                    isAdmin={isAdmin}
                 />
 
                 {isModalOpen && (

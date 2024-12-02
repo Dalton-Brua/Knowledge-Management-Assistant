@@ -2,7 +2,7 @@ import React from "react";
 import ActionsCell from "./ActionsCell";
 import "../styles/UsersTable.css";
 
-const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
+const UsersTable = ({ users, onEditUser, onDeleteUser, isAdmin }) => {
     return (
         <div className="users-table-container">
             <table className="users-table">
@@ -22,6 +22,7 @@ const UsersTable = ({ users, onEditUser, onDeleteUser }) => {
                                 <ActionsCell
                                     onEdit={() => onEditUser(user)}
                                     onDelete={() => onDeleteUser(user)}
+                                    isAdmin={isAdmin}
                                 />
                             </td>
                         </tr>
