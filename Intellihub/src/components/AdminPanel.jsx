@@ -7,10 +7,9 @@ const AdminPanel = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
+    const [oldUsername, setOldUsername] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("Admin");
-    const [isActive, setIsActive] = useState(true);
     const [editUserId, setEditUserId] = useState(null);
 
     const openModal = () => setIsModalOpen(true);
@@ -21,64 +20,76 @@ const AdminPanel = () => {
 
     const resetForm = () => {
         setUsername("");
-        setEmail("");
         setPassword("");
         setRole("Admin");
-        setIsActive(true);
         setEditUserId(null);
     };
 
     const handleAddOrEditUser = (event) => {
         event.preventDefault();
 
-        if (!username.trim() || !email.trim() || !password.trim()) return;
+        if (!username.trim() || !password.trim()) return;
 
         if (editUserId) {
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === editUserId
-                        ? { ...user, name: username, email, password, role, status: isActive ? "Active" : "Inactive" }
-                        : user
-                )
-            );
+            fetch('http://localhost:5000/editUser', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    oldUser: oldUsername,
+                    newUser: {
+                        name: username,
+                        pass: password,
+                        role: role
+                    }
+                })
+            }).then(res => res.json()).then(data => {
+                setUsers(data);
+            });
         } else {
-            const newUser = {
-                id: Date.now(),
-                name: username,
-                email,
-                password,
-                role,
-                status: isActive ? "Active" : "Inactive",
-            };
-            setUsers((prevUsers) => [...prevUsers, newUser]);
+            fetch('http://localhost:5000/createUser', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: username,
+                    pass: password,
+                    role: role
+                })
+            }).then(res => res.json()).then(data => {
+                setUsers(data);
+            });
         }
 
         closeModal();
     };
 
     const handleEditUser = (user) => {
-        setEditUserId(user.id);
-        setUsername(user.name);
-        setEmail(user.email);
-        setPassword(user.password); // Pre-fill password for editing
-        setRole(user.role);
-        setIsActive(user.status === "Active");
+        fetch('http://localhost:5000/getUserInfo', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: user.name, }),
+        }).then(res => res.json()).then(data => {
+
+            setUsername(data.name);
+            setOldUsername(data.name);
+            setPassword(data.pass);
+            setRole(data.role);
+
+        });
+        setEditUserId(true);
         openModal();
     };
 
     const handleDeleteUser = (userDelete) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userDelete.id));
-        // fetch('http://localhost:5000/deleteUser', {
-        //     method: "POST",
-        //     headers: {
-        //         "Accept": "application/json",
-        //         "Content-Type": 'application/json'
-        //     },
-        //     body: { userDelete }
+        console.log(userDelete.name)
+        fetch('http://localhost:5000/deleteUser', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: userDelete.name })
             
-        // }).then(res => res.json()).then(data => {
-        //     setUsers(data);
-        // })
+        }).then(res => res.json()).then(data => {
+            setUsers(data);
+        })
     };
 
     useEffect(() => {
@@ -99,7 +110,6 @@ const AdminPanel = () => {
                     onEditUser={handleEditUser}
                     onDeleteUser={handleDeleteUser}
                 />
-                <CardContainer />
 
                 {isModalOpen && (
                     <div className="modal-overlay">
@@ -114,17 +124,6 @@ const AdminPanel = () => {
                                         name="username"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </div>
@@ -152,16 +151,6 @@ const AdminPanel = () => {
                                         <option value="Knowledge Manager">Knowledge Manager</option>
                                         <option value="Guest">Guest</option>
                                     </select>
-                                </div>
-                                <div className="form-group checkbox-group">
-                                    <input
-                                        type="checkbox"
-                                        id="active"
-                                        name="active"
-                                        checked={isActive}
-                                        onChange={(e) => setIsActive(e.target.checked)}
-                                    />
-                                    <label htmlFor="active">Active?</label>
                                 </div>
                                 <div className="form-actions">
                                     <button type="submit" className="submit-btn">

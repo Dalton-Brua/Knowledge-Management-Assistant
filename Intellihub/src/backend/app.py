@@ -7,11 +7,6 @@ import json
 import parse_json as pj
 import search as google
 from gemini_api import GeminiSummarizer
-#from Crypto.Hash import SHA256
-
-SEARCH_API_KEY = 'AIzaSyDWjmv5nxuxjcO7xEkE2uG_uwS13SvAsIE'
-SEARCH_ENGINE_ID = '0546012e6548e4e3f'
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
 
 app = Flask(__name__)
 CORS(app)
@@ -26,42 +21,65 @@ def home():
 ##############################################
 
 
-@app.route('/createUser/<username>', methods=['GET'])
-def createUser(username, password):
+@app.route('/createUser', methods=['POST'])
+def createUser():
     collection = db.users
+    user = request.get_json()
 
-    #hash = SHA256.new()
-    #hash.update(password)
-    #hash.digest()
-    post = {
-            "name": f"{escape(username)}",
-            "pass": f"{escape(username)}1",
-            "role": "admin"
-        }
-    result = collection.insert_one(post)
-    return 'Inserted document with id: {}'.format(result.inserted_id)
+    result = collection.insert_one(user)
+    return pj.parse_json(db.users.find({})), 200
 
-##############################################
-
-@app.route('/getUserInfo/<username>', methods=['GET'])
-def getUserInfo(username):
-
+## Gets a specific user profile
+@app.route('/getUserInfo', methods=['POST'])
+def getUserInfo():
+    data = request.get_json()
+    username = data['name']
     collection = db.users
     doc = collection.find_one({ 'name' : f'{username}' })
     if (doc == None):
-        return f"No documents found with username \'{username}\'"
-    print("User found:\n")
-    print(pj.parse_json(doc))
+        return f"No documents found with username \'{username}\'", 200
     return pj.parse_json(doc)
 
 ##############################################
 
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
-    return db.users
+    return pj.parse_json(db.users.find({}))
 
-##############################################
+## Deletes a user
+@app.route('/deleteUser', methods=['POST'])
+def deleteUser():
+    data = request.get_json()
+    user = data['username']
+    collection = db.users
+    collection.delete_one({'name': user})
 
+    return pj.parse_json(db.users.find({})), 200
+
+## Changes user attributes
+@app.route('/editUser', methods=['POST'])
+def editUser():
+    data = request.get_json()
+    oldUser = data['oldUser']
+    newUser = data['newUser']
+    collection = db.users
+    collection.replace_one({ "name": oldUser }, newUser)
+
+    return pj.parse_json(db.users.find({}))
+
+## Retrieves all queries and sorts by most recent
+@app.route('/getAllQueries', methods=['GET'])
+def getQueries():
+    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1}))
+
+## Retrieves 3 most recent queries
+@app.route('/getLatestQueries', methods=['POST'])
+def getLatestQueries():
+    data = request.get_json()
+    user = data['user']
+    return pj.parse_json(db.queries.find({'user': user}).sort({"timestamp": -1}).limit(3))
+
+## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
 def handleQuery(): # TODO: Implement a way for Knowledge Manager to search through previous queries if any to improve response (part of scope/requirements)
     collection = db.queries # Create 'queries' collection in database
@@ -71,8 +89,8 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         return jsonify({"error": "Invalid request. Query is missing."}), 400
 
     query = data['query']
-    user = data.get('user', 'unknown')  # Default to 'unknown' if no user is provided - Current implementation is always "testuser"
-    timestamp = datetime.now().isoformat() # Save when query is submitted
+    user = data.get('user', 'unknown') # Default to 'unknown' if no user is provided
+    timestamp = data['timestamp'] # Save when query is submitted
 
     try:
         # Perform Google Search

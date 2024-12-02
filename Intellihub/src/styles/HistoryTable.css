@@ -10,7 +10,7 @@
 
 .table-header {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Four equal columns */
     background-color: #f1f1f1;
     font-weight: 700;
     padding: 10px 0;
@@ -30,9 +30,15 @@
 
 .table-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     border-bottom: 1px solid #eee;
     background-color: #fff;
+}
+
+.table-row:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 .table-cell {
