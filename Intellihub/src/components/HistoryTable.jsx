@@ -39,12 +39,12 @@ export const HistoryTable = ({ isAdmin }) => {
             setOldQuery(query);
             setIsModalOpen(true);
         } else {
-            // let user = sessionStorage.getItem('name');
+            let user = sessionStorage.getItem('name');
             let timestamp = new Date().toLocaleString();
             fetch("http://localhost:5000/editQuery", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"oldQuery": oldQuery, "newQuery": newQuery, /*"user": user,*/ "timestamp": timestamp}),
+                body: JSON.stringify({ "oldQuery": oldQuery, "newQuery": newQuery, "user": user, "timestamp": timestamp }),
             }).then(res => res.json()).then(data => {
                 setTableData(data);
             });
@@ -52,7 +52,13 @@ export const HistoryTable = ({ isAdmin }) => {
     };
 
     const deleteQuery = (query) => {
-        console.log("Delete query:", query);
+        fetch("http://localhost:5000/deleteQuery", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "query": query }),
+        }).then(res => res.json()).then(data => {
+            setTableData(data);
+        });
     };
 
     return (
@@ -109,7 +115,7 @@ export const HistoryTable = ({ isAdmin }) => {
                                     <h5>{oldQuery}</h5>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="newQuery">New Query</label>
+                                    <label>New Query</label>
                                     <input
                                         value={newQuery}
                                         onChange={(e) => setNewQuery(e.target.value)}
