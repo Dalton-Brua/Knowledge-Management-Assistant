@@ -21,4 +21,6 @@ For first time running:
 
 ### pip install python-dotenv
 
+### pip install sentence-transformers
+
 ### npm run start-api
