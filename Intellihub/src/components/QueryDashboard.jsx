@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import QueryCard from "./QueryCard";
 import "../styles/QueryDashboard.css";
 
 const QueryDashboard = () => {
@@ -67,21 +66,10 @@ const QueryDashboard = () => {
 
     return (
         <div className="query-dashboard">
+
+            {/* Keep so query button stays at bottom*/}
             <div className="dashboard-content">
-                <div className="query-cards-container">
-                    <QueryCard
-                        title="Customer Feedback"
-                        description="Common patterns in customer feedback from the past year"
-                    />
-                    <QueryCard
-                        title="Renewable Energy"
-                        description="Summary of recent advancements in renewable energy technology"
-                    />
-                    <QueryCard
-                        title="Blockchain Trends"
-                        description="Latest news articles about emerging blockchain technology"
-                    />
-                </div>
+
             </div>
 
             <div className="query-results-container">
