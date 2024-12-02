@@ -22,8 +22,8 @@ def search(query, api_key, search_engine_id, num_results=10, output_file="search
         print(f"An error occurred: {e}")
 
 # Test usage
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Test query
-    query = "Best Black Friday Deals" #TODO: Connect with frontend to get query from dashboard search form.
+   # query = "Best Black Friday Deals" #TODO: Connect with frontend to get query from dashboard search form.
     
-    search(query, API_KEY, SEARCH_ENGINE_ID, num_results=20)
+   # search(query, API_KEY, SEARCH_ENGINE_ID, num_results=20)
