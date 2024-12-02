@@ -40,7 +40,7 @@ class GeminiSummarizer:
 
             # Request a single summary from the model
             content_to_summarize = (
-                f"{combined_content}\n\nBased on the provided information while taking while taking into account this similar query and response, if it exists:"
+                f"{combined_content}\n\nBased on the provided information while taking into account this similar query and response, if it exists:"
                 f"\n\n Similar query name: {similar_query_name} and its response: {similar_query_response}"
                 f"Summarize the content relevant to the query with 400 words or less in a professional manner, avoiding direct mentions to the documents :{query}"
             )
