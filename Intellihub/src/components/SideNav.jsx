@@ -9,7 +9,7 @@ const SideNav = () => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
-            if (sessionStorage.getItem("role") == "Admin") {
+            if (sessionStorage.getItem("role") === "Admin") {
             setIsAdmin(true);
         }
     }, [])

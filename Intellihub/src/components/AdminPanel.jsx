@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import UsersTable from "./UsersTable";
-import CardContainer from "./CardContainer";
 import "../styles/AdminPanel.css";
 
 const AdminPanel = () => {
@@ -13,7 +12,7 @@ const AdminPanel = () => {
     const [role, setRole] = useState("Admin");
     const [editUserId, setEditUserId] = useState(null);
     
-    if (sessionStorage.getItem('role') == "Admin") {
+    if (sessionStorage.getItem('role') === "Admin") {
         isAdmin = true;
     }
 
