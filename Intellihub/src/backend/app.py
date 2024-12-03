@@ -15,6 +15,42 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
+
+########### Backend helper functions
+
+
+## Sort queries based on actual time by parsing
+def sortQueries():
+    queries = list(db.queries.find({}))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+
+    return pj.parse_json(sorted_queries)
+
+## Sort queries based on actual time by parsing, with a user lookup
+def sortQueriesByUser(user):
+    queries = list(db.queries.find({ 'user': user }))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+
+    return pj.parse_json(sorted_queries)
+
+## Reverse the top 3 queries so they appear most recent from bottom up in dashboard
+def reverseQueries(user):
+    queries = sortQueriesByUser(user)
+    reversed_queries = queries[::-1]
+    return pj.parse_json(reversed_queries)
+
+##############
+
 @app.route('/createUser', methods=['POST'])
 def createUser():
     collection = db.users
@@ -139,6 +175,9 @@ def finalDelete():
     db.deletedQueries.delete_one({ "original.query": query })
     return pj.parse_json(db.deletedQueries.find({})), 200
 
+## Restores a deleted query to history table
+@app.route('/restoreQuery', methods=['POST'])
+
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting
 def handleQuery(): # TODO: Implement a way for Knowledge Manager to search through previous queries if any to improve response (part of scope/requirements)
@@ -186,38 +225,5 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
 if __name__ == "__main__":
     app.run(debug=True)
 
-########### Backend helper functions
-
-
-## Sort queries based on actual time by parsing
-def sortQueries():
-    queries = list(db.queries.find({}))
-    for query in queries:
-        if 'timestamp' in query and isinstance(query['timestamp'], str):
-            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
-    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
-    for query in sorted_queries:
-        del query['timestamp_parsed']  # Clean up temporary parsed field
-
-    return pj.parse_json(sorted_queries)
-
-## Sort queries based on actual time by parsing, with a user lookup
-def sortQueriesByUser(user):
-    queries = list(db.queries.find({ 'user': user }))
-    for query in queries:
-        if 'timestamp' in query and isinstance(query['timestamp'], str):
-            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
-    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
-    for query in sorted_queries:
-        del query['timestamp_parsed']  # Clean up temporary parsed field
-
-    return pj.parse_json(sorted_queries)
-
-def reverseQueries(user):
-
-    queries = sortQueriesByUser(user)
-    # Reverse the top 3 queries so they appear most recent from bottom up in dashboard
-    reversed_queries = queries[::-1]
-    return pj.parse_json(reversed_queries)
 
 
