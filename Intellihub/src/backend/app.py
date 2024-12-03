@@ -84,9 +84,11 @@ def getLatestQueries():
         if 'timestamp' in query and isinstance(query['timestamp'], str):
             query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
     sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)[:3]
+    # Reverse the top 3 queries so they appear most recent from bottom up in dashboard
+    reversed_queries = sorted_queries[::-1]
     for query in sorted_queries:
         del query['timestamp_parsed']  # Clean up temporary parsed field
-    return pj.parse_json(sorted_queries)
+    return pj.parse_json(reversed_queries)
 
 ## Takes an old query and changes it
 @app.route('/editQuery', methods=['POST'])
