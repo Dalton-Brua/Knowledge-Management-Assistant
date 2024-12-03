@@ -1,14 +1,17 @@
-
 import json
 import requests
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+import find_similar as fs
 
 # TODO: store environment variables
-google_api_key = "AIzaSyAZJbOEfC101tST3VcpknqSHJVmubhn0DE"
+load_dotenv()
+google_api_key = os.getenv('GOOGLE_API_KEY')
 
 class GeminiSummarizer:
-    def __init__(self, api_key=google_api_key, model="gemini-1.5-flash"):
-        genai.configure(api_key=api_key)
+    def __init__(self, model="gemini-1.5-flash"):
+        genai.configure(api_key=google_api_key)
         self.model = model
 
     def summarize_results(self, input_file, output_file, query):
@@ -17,6 +20,15 @@ class GeminiSummarizer:
                 search_results = json.load(f)
 
             combined_content = f"Query: {query}\n\nRelevant information from search results:\n"
+
+            # Check for similar query and response
+            similar_query = fs.find_similar(query)
+            if (similar_query != None):
+                similar_query_name = similar_query.get("query")
+                similar_query_response = similar_query.get("response")
+            else:
+                similar_query_name = "No similar query exists. Do not include in summary."
+                similar_query_response = "No similar response exists. Do not include in summary."
 
             # Combine snippets and titles for all results
             for result in search_results:
@@ -28,8 +40,9 @@ class GeminiSummarizer:
 
             # Request a single summary from the model
             content_to_summarize = (
-                f"{combined_content}\n\nBased on the provided information, "
-                f"Summarize the content relevant to the query with 250 words or less:{query}"
+                f"{combined_content}\n\nBased on the provided information while taking into account this similar query and response, if it exists:"
+                f"\n\n Similar query name: {similar_query_name} and its response: {similar_query_response}"
+                f"Summarize the content relevant to the query with 400 words or less in a professional manner, avoiding direct mentions to the documents :{query}"
             )
 
             try:
