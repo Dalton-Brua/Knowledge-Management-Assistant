@@ -29,7 +29,7 @@ def getUserInfo():
     data = request.get_json()
     username = data['name']
     collection = db.users
-    doc = collection.find_one({ 'name' : f'{username}' })
+    doc = collection.find_one({ 'name': f'{username}' })
     if (doc == None):
         return f"No documents found with username \'{username}\'", 200
     return pj.parse_json(doc)
@@ -63,32 +63,16 @@ def editUser():
 ## Retrieves all queries and sorts by most recent
 @app.route('/getAllQueries', methods=['GET'])
 def getQueries():
-    queries = list(db.queries.find({}))
     # Sort queries based on actual time by parsing
-    for query in queries:
-        if 'timestamp' in query and isinstance(query['timestamp'], str):
-            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
-    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
-    for query in sorted_queries:
-        del query['timestamp_parsed']  # Clean up temporary parsed field
-    return pj.parse_json(sorted_queries)
+    return sortQueries(), 200
 
 ## Retrieves 3 most recent queries
 @app.route('/getLatestQueries', methods=['POST'])
 def getLatestQueries():
     data = request.get_json()
     user = data['user']
-    # Sort queries based on actual time by parsing
-    queries = list(db.queries.find({'user': user}))
-    for query in queries:
-        if 'timestamp' in query and isinstance(query['timestamp'], str):
-            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
-    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)[:3]
-    # Reverse the top 3 queries so they appear most recent from bottom up in dashboard
-    reversed_queries = sorted_queries[::-1]
-    for query in sorted_queries:
-        del query['timestamp_parsed']  # Clean up temporary parsed field
-    return pj.parse_json(reversed_queries)
+    return reverseQueries(user), 200
+    
 
 ## Takes an old query and changes it
 @app.route('/editQuery', methods=['POST'])
@@ -96,8 +80,10 @@ def editQuery():
     data = request.get_json()
     oldQuery = data['oldQuery']
     newQuery = data['newQuery']
-    user = data ['user']
+    user = data['user']
     timestamp = data['timestamp']
+
+    savedQuery = db.queries.find({'query': oldQuery})[0]
 
     db.queries.delete_one({'query': oldQuery})
     # Perform Google Search
@@ -116,22 +102,17 @@ def editQuery():
     # Save the query, timestamp, and response in MongoDB
     log_entry = {
         "query": newQuery,
-        "user": user,
-        "timestamp": timestamp,
+        "user": savedQuery['user'],
+        "timestamp": savedQuery['timestamp'],
         "response": summary_data.get("response", "No response available."),
+        "lastModified": timestamp,
+        "modifiedBy": user,
     }
     db.queries.insert_one(log_entry)
 
-    # Sort queries based on actual time by parsing
-    queries = list(db.queries.find({}))
-    for query in queries:
-        if 'timestamp' in query and isinstance(query['timestamp'], str):
-            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
-    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
-    for query in sorted_queries:
-        del query['timestamp_parsed']  # Clean up temporary parsed field
-
-    return pj.parse_json(sorted_queries), 200
+    
+    return sortQueries(), 200
+    
 
 ## Deletes a query
 @app.route('/deleteQuery', methods=['POST'])
@@ -187,5 +168,39 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
 ## Always runs the debug server
 if __name__ == "__main__":
     app.run(debug=True)
+
+########### Backend helper functions
+
+
+## Sort queries based on actual time by parsing
+def sortQueries():
+    queries = list(db.queries.find({}))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+
+    return pj.parse_json(sorted_queries)
+
+## Sort queries based on actual time by parsing, with a user lookup
+def sortQueriesByUser(user):
+    queries = list(db.queries.find({ 'user': user }))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+
+    return pj.parse_json(sorted_queries)
+
+def reverseQueries(user):
+
+    queries = sortQueriesByUser(user)
+    # Reverse the top 3 queries so they appear most recent from bottom up in dashboard
+    reversed_queries = queries[::-1]
+    return pj.parse_json(reversed_queries)
 
 
