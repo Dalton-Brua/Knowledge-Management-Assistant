@@ -122,6 +122,8 @@ export const HistoryTable = ({ isAdmin }) => {
                             {expandedRows[index] && (
                                 <tr className="expanded-row">
                                     <td className="expanded-cell" colSpan="4">
+                                        <strong>Query Title:</strong>
+                                        <p>{row.query || "No title available"}</p>
                                         <strong>Response:</strong>
                                         <p>{row.response || "No response available"}</p>
                                     </td>
