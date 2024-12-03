@@ -138,8 +138,11 @@ export const HistoryTable = ({ isAdmin }) => {
                                         <p>{row.query || "No title available"}</p>
                                         <strong>Response:</strong>
                                         <p>{row.response || "No response available"}</p>
-                                        <strong>Last Modified:</strong>
-                                        <p>{row.lastModified || "Never"}</p>
+                                        <div className='modified-container'>
+                                            <strong>Last Modified:</strong>
+                                            <p>{row.lastModified || "Never"}</p>
+                                            {row.modifiedBy ? <p>by {row.modifiedBy}</p> : null}
+                                        </div>    
                                     </td>
                                 </tr>
                             )}
