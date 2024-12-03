@@ -63,14 +63,30 @@ def editUser():
 ## Retrieves all queries and sorts by most recent
 @app.route('/getAllQueries', methods=['GET'])
 def getQueries():
-    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1}))
+    queries = list(db.queries.find({}))
+    # Sort queries based on actual time by parsing
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+    return pj.parse_json(sorted_queries)
 
 ## Retrieves 3 most recent queries
 @app.route('/getLatestQueries', methods=['POST'])
 def getLatestQueries():
     data = request.get_json()
     user = data['user']
-    return pj.parse_json(db.queries.find({'user': user}).sort({"timestamp": -1}).limit(3))
+    # Sort queries based on actual time by parsing
+    queries = list(db.queries.find({'user': user}))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)[:3]
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+    return pj.parse_json(sorted_queries)
 
 ## Takes an old query and changes it
 @app.route('/editQuery', methods=['POST'])
@@ -104,7 +120,16 @@ def editQuery():
     }
     db.queries.insert_one(log_entry)
 
-    return pj.parse_json(db.queries.find({}).sort({"timestamp": -1})), 200
+    # Sort queries based on actual time by parsing
+    queries = list(db.queries.find({}))
+    for query in queries:
+        if 'timestamp' in query and isinstance(query['timestamp'], str):
+            query['timestamp_parsed'] = datetime.strptime(query['timestamp'], '%m/%d/%Y, %I:%M:%S %p')
+    sorted_queries = sorted(queries, key=lambda x: x['timestamp_parsed'], reverse=True)
+    for query in sorted_queries:
+        del query['timestamp_parsed']  # Clean up temporary parsed field
+
+    return pj.parse_json(sorted_queries), 200
 
 ## Deletes a query
 @app.route('/deleteQuery', methods=['POST'])
