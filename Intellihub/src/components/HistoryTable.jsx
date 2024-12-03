@@ -9,7 +9,7 @@ export const HistoryTable = ({ isAdmin }) => {
     const [oldQuery, setOldQuery] = useState("");
     const [newQuery, setNewQuery] = useState("");
     const [tableData, setTableData] = useState([]);
-    const [expandedRows, setExpandedRows] = useState({}); 
+    const [expandedRows, setExpandedRows] = useState({});
     const [filteredData, setFilteredData] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [filterType, setFilterType] = useState("query");
@@ -44,23 +44,30 @@ export const HistoryTable = ({ isAdmin }) => {
     const toggleRowExpansion = (index) => {
         setExpandedRows((prev) => ({
             ...prev,
-            [index]: !prev[index], 
+            [index]: !prev[index],
         }));
     };
 
     const handleEditQuery = () => {
-        let user = sessionStorage.getItem('name');
+        let user = sessionStorage.getItem("name");
         let timestamp = new Date().toLocaleString();
         fetch("http://localhost:5000/editQuery", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "oldQuery": oldQuery, "newQuery": newQuery, "user": user, "timestamp": timestamp }),
-        }).then(res => res.json()).then(data => {
-            setTableData(data);
-        });
+            body: JSON.stringify({
+                oldQuery: oldQuery,
+                newQuery: newQuery,
+                user: user,
+                timestamp: timestamp,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setTableData(data);
+            });
 
-        closeModal()
-    }
+        closeModal();
+    };
 
     const editQuery = (query) => {
         setOldQuery(query);
@@ -71,24 +78,28 @@ export const HistoryTable = ({ isAdmin }) => {
         fetch("http://localhost:5000/deleteQuery", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "query": query }),
-        }).then(res => res.json()).then(data => {
-            setTableData(data);
-        });
+            body: JSON.stringify({ query: query }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setTableData(data);
+            });
     };
 
     return (
         <div className="history-table-container">
-            <SearchBar 
-                placeholder = "Search query by filter"
-                value = {searchInput}
+            <SearchBar
+                placeholder="Search query by filter"
+                value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
             />
-            <h4>Filter Type</h4>
-            <FilterDropdown
-                filterType={filterType}
-                setFilterType={setFilterType}
-            ></FilterDropdown>
+            <div className="filter-container">
+                <h4>Filter Type</h4>
+                <FilterDropdown
+                    filterType={filterType}
+                    setFilterType={setFilterType}
+                ></FilterDropdown>
+            </div>
             <table className="history-table">
                 <thead>
                     <tr className="table-header">
@@ -134,39 +145,38 @@ export const HistoryTable = ({ isAdmin }) => {
                 </tbody>
             </table>
             {isModalOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal">
-                            <h2>Edit Query</h2>
-                            <form onSubmit={handleEditQuery}>
-                                <div className="form-group">
-                                    <label>Old Query</label>
-                                    <h5>{oldQuery}</h5>
-                                </div>
-                                <div className="form-group">
-                                    <label>New Query</label>
-                                    <input
-                                        value={newQuery}
-                                        onChange={(e) => setNewQuery(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-actions">
-                                    <button type="submit" className="submit-btn">
-                                        Save Changes
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="cancel-btn"
-                                        onClick={closeModal}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>Edit Query</h2>
+                        <form onSubmit={handleEditQuery}>
+                            <div className="form-group">
+                                <label>Old Query</label>
+                                <h5>{oldQuery}</h5>
+                            </div>
+                            <div className="form-group">
+                                <label>New Query</label>
+                                <input
+                                    value={newQuery}
+                                    onChange={(e) => setNewQuery(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-actions">
+                                <button type="submit" className="submit-btn">
+                                    Save Changes
+                                </button>
+                                <button
+                                    type="button"
+                                    className="cancel-btn"
+                                    onClick={closeModal}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                )}
+                </div>
+            )}
         </div>
-        
     );
 };

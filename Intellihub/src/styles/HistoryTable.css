@@ -1,50 +1,68 @@
 .history-table {
-    display: grid;
-    grid-template-rows: auto 1fr; /* Header and body */
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
     font-family: "Poppins", sans-serif;
+    border-spacing: 0; /* Ensures no spacing between table cells */
+    table-layout: fixed; /* Enables consistent column widths */
 }
 
 .table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr; /* Four equal columns */
     background-color: #f1f1f1;
-    font-weight: 700;
-    padding: 10px 0;
-    text-align: left;
+    font-weight: bold;
     border-bottom: 1px solid #ccc;
+    font-size: 16px; /* Slightly larger header font */
+    text-align: left;
 }
 
 .header-cell {
-    padding: 10px 15px;
+    padding: 12px 15px;
     color: #555;
+    overflow: hidden; /* Prevents overflow in header cells */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-cell:first-child {
+    width: 50%; /* Allocates more space to the "Query" column */
+}
+
+.header-cell:nth-child(2) {
+    width: 20%; /* Date column */
+}
+
+.header-cell:nth-child(3) {
+    width: 15%; /* User column */
+}
+
+.header-cell:last-child {
+    width: 15%; /* Actions column */
+    text-align: center;
 }
 
 .table-body {
-    display: grid;
-    grid-auto-rows: minmax(50px, auto);
+    width: 100%;
 }
 
 .table-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: table-row;
     border-bottom: 1px solid #eee;
     background-color: #fff;
+    font-size: 15px; /* Maintains consistency with the header */
 }
 
 .table-row:hover {
     cursor: pointer;
-    transform: translateY(-2px);
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
+    background-color: #eaeaea;
+    transition: background-color 0.3s ease;
 }
 
 .table-cell {
-    padding: 10px 15px;
+    padding: 12px 15px;
+    font-size: 14px;
     color: #333;
-    overflow: hidden;
+    overflow: hidden; /* Ensures content fits within cells */
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -54,8 +72,7 @@
 }
 
 .actions-header {
-    text-align: center; /* horizontal alignment */
-    vertical-align: middle; /* vertical alignment */
+    text-align: center;
 }
 
 .actions-cell {
@@ -75,8 +92,23 @@
     text-align: left;
 }
 
-.table-row:hover {
-    background-color: #eaeaea;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between the header and dropdown */
+    margin-bottom: 20px;
+}
+
+.filter-container h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.filter-container select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
