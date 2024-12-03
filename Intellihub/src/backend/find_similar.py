@@ -24,9 +24,7 @@ def find_similar(new_query):
         if score > best_score:
             best_score = score
             best_match = entry
-
-    print (best_score)
-    print(best_match)
+            
     similarity_threshold = 0.5  # Adjust if needed
     if best_score > similarity_threshold:
         return best_match
