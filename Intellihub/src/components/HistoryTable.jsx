@@ -13,6 +13,7 @@ export const HistoryTable = ({ isAdmin }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [filterType, setFilterType] = useState("query");
+    let currUser = sessionStorage.getItem("name");
 
     useEffect(() => {
         fetch("http://localhost:5000/getAllQueries")
@@ -49,7 +50,7 @@ export const HistoryTable = ({ isAdmin }) => {
     };
 
     const handleEditQuery = () => {
-        let user = sessionStorage.getItem("name");
+        
         let timestamp = new Date().toLocaleString();
         fetch("http://localhost:5000/editQuery", {
             method: "POST",
@@ -57,7 +58,7 @@ export const HistoryTable = ({ isAdmin }) => {
             body: JSON.stringify({
                 oldQuery: oldQuery,
                 newQuery: newQuery,
-                user: user,
+                user: currUser,
                 timestamp: timestamp,
             }),
         })
@@ -78,7 +79,7 @@ export const HistoryTable = ({ isAdmin }) => {
         fetch("http://localhost:5000/deleteQuery", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query: query }),
+            body: JSON.stringify({ query: query, 'deletedBy':  currUser}),
         })
             .then((res) => res.json())
             .then((data) => {

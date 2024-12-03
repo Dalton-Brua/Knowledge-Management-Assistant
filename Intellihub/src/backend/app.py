@@ -73,6 +73,9 @@ def getLatestQueries():
     user = data['user']
     return reverseQueries(user), 200
     
+@app.route('/getDeletedQueries', methods=['GET'])
+def getDeletedQueries():
+    return pj.parse_json(db.deletedQueries.find({}))
 
 ## Takes an old query and changes it
 @app.route('/editQuery', methods=['POST'])
@@ -114,13 +117,27 @@ def editQuery():
     return sortQueries(), 200
     
 
-## Deletes a query
+## Deletes a query from queries
 @app.route('/deleteQuery', methods=['POST'])
 def deleteQuery():
     data = request.get_json()
     query = data['query']
-    db.queries.delete_one({'query': query})
+    user = data['deletedBy']
+    fullQuery = db.queries.find({ 'query': query })[0]
+    db.deletedQueries.insert_one({
+        'original': fullQuery,
+        'deletedBy': user,
+        })
+    db.queries.delete_one({ 'query':  query})
     return pj.parse_json(db.queries.find({}).sort({"timestamp": -1})), 200
+
+## Deletes a query from deletedQueries
+@app.route('/finalDelete', methods=['POST'])
+def finalDelete():
+    data = request.get_json()
+    query = data['query']
+    db.deletedQueries.delete_one({ "original.query": query })
+    return pj.parse_json(db.deletedQueries.find({})), 200
 
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting

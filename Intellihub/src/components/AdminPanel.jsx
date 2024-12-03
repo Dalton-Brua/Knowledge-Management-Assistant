@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UsersTable from "./UsersTable";
 import "../styles/AdminPanel.css";
+import RecentlyDeletedTable from "./RecentlyDeletedTable";
 
 const AdminPanel = () => {
     let isAdmin = false;
@@ -11,6 +12,7 @@ const AdminPanel = () => {
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("Admin");
     const [editUserId, setEditUserId] = useState(null);
+    const [deletedQueries, setDeletedQueries] = useState([]);
     
     if (sessionStorage.getItem('role') === "Admin") {
         isAdmin = true;
@@ -100,6 +102,9 @@ const AdminPanel = () => {
         fetch('http://localhost:5000/getUsers').then(res => res.json()).then(data => {
             setUsers(data);
         })
+        fetch('http://localhost:5000/getDeletedQueries').then(res => res.json()).then(data => {
+            setDeletedQueries(data);
+        })
     }, []);
 
     return (
@@ -173,6 +178,11 @@ const AdminPanel = () => {
                         </div>
                     </div>
                 )}
+
+                <h2>Recently Deleted Queries</h2>
+                <RecentlyDeletedTable
+                    queries={deletedQueries}
+                />
             </div>
         </div>
     );

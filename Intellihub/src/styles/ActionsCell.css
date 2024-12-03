@@ -5,7 +5,7 @@
 }
 
 .edit-button,
-.deactivate-button,
+.restore-button,
 .delete-button {
     border: none;
     border-radius: 4px;
@@ -26,16 +26,6 @@
     background-color: #45a049;
 }
 
-/* Deactivate Button */
-.deactivate-button {
-    background-color: #ffa500;
-    color: white;
-}
-
-.deactivate-button:hover {
-    background-color: #e69100;
-}
-
 /* Delete Button */
 .delete-button {
     background-color: #f44336;
@@ -44,4 +34,15 @@
 
 .delete-button:hover {
     background-color: #e53935;
+}
+
+/* Restore Button */
+.restore-button {
+    background-color: #397ce0;
+    color: white;
+    margin: 8px;
+}
+
+.restore-button:hover {
+    background-color: #2c5ca4;
 }
