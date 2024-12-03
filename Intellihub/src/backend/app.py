@@ -14,13 +14,6 @@ client = MongoClient("mongodb://localhost:27017/")
 
 db = client["KMA_DB"]
 
-@app.route('/home')
-def home():
-    return "<h1>Hello world!</h1>"
-
-##############################################
-
-
 @app.route('/createUser', methods=['POST'])
 def createUser():
     collection = db.users
@@ -40,8 +33,7 @@ def getUserInfo():
         return f"No documents found with username \'{username}\'", 200
     return pj.parse_json(doc)
 
-##############################################
-
+## Gets all users
 @app.route('/getUsers', methods=['GET'])
 def getUsers():
     return pj.parse_json(db.users.find({}))
@@ -95,18 +87,18 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
     try:
         # Perform Google Search
         search_output_file = "search_results.json"
-        google.search(query, SEARCH_API_KEY, SEARCH_ENGINE_ID, num_results=10, output_file=search_output_file)
+        google.search(query, num_results=10, output_file=search_output_file)
 
         # Summarize search results
         summary_output_file = "summary_results.json"
-        summarizer = GeminiSummarizer(api_key=google_api_key)
+        summarizer = GeminiSummarizer()
         summarizer.summarize_results(input_file=search_output_file, output_file=summary_output_file, query=query)
 
         # Get summary result
         with open(summary_output_file, "r") as f:
             summary_data = json.load(f)
 
-        # Save the query, user, timestamp, and response in MongoDB
+        # Save the query, timestamp, and response in MongoDB
         log_entry = {
             "query": query,
             "user": user,
@@ -122,7 +114,6 @@ def handleQuery(): # TODO: Implement a way for Knowledge Manager to search throu
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing the query."}), 500
 
-##############################################
-
+## Always runs the debug server
 if __name__ == "__main__":
     app.run(debug=True)
