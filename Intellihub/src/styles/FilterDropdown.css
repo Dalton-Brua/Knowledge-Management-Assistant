@@ -1,0 +1,10 @@
+.filter-dropdown {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}

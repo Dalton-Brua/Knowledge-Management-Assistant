@@ -52,3 +52,31 @@
 .table-row:nth-child(even) {
     background-color: #f9f9f9;
 }
+
+.actions-header {
+    text-align: center; /* horizontal alignment */
+    vertical-align: middle; /* vertical alignment */
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+.expanded-row {
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.expanded-cell {
+    padding: 15px;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+}
+
+.table-row:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
