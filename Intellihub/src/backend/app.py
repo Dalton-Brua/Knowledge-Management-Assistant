@@ -102,7 +102,7 @@ def getQueries():
     # Sort queries based on actual time by parsing
     return sortQueries(), 200
 
-## Retrieves 3 most recent queries
+## Retrieves the most recent queries
 @app.route('/getLatestQueries', methods=['POST'])
 def getLatestQueries():
     data = request.get_json()
@@ -173,10 +173,20 @@ def finalDelete():
     data = request.get_json()
     query = data['query']
     db.deletedQueries.delete_one({ "original.query": query })
+    #print("Query successfully deleted")
     return pj.parse_json(db.deletedQueries.find({})), 200
 
 ## Restores a deleted query to history table
 @app.route('/restoreQuery', methods=['POST'])
+def restoreQuery():
+    data = request.get_json()
+    query = data['query']
+    query_to_restore = db.deletedQueries.find_one({ "original.query": query })
+    db.queries.insert_one(query_to_restore["original"])
+    db.deletedQueries.delete_one({ "original.query": query })
+    return pj.parse_json(db.deletedQueries.find({})), 200
+
+
 
 ## Submits a query to be generated
 @app.route('/query', methods = ['POST']) # TODO: Implement a way to modify query after submitting

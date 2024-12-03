@@ -9,8 +9,14 @@ const RecentlyDeletedTable = ( { queries } ) => {
         setDeletedQueries(queries);
     }, [queries]);
 
-    const onRestore = () => {
-
+    const onRestore = (queryToRestore) => {
+        fetch('http://localhost:5000/restoreQuery', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: queryToRestore }),
+        }).then(res => res.json()).then(data => {
+            setDeletedQueries(data);
+        });
     }
     
     const onDelete = (queryToDelete) => {
@@ -40,13 +46,13 @@ const RecentlyDeletedTable = ( { queries } ) => {
                             <td className="actions-column">
                                 <button
                                     className="restore-button"
-                                    onClick={onRestore(query.original.query)}
+                                    onClick={() => onRestore(query.original.query)}
                                 >
                                     Restore
                                 </button>
                                 <button
                                     className="delete-button"
-                                    onClick={onDelete(query.original.query)}
+                                    onClick={() => onDelete(query.original.query)}
                                 >
                                     Delete
                                 </button>
