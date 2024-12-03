@@ -10,7 +10,8 @@ const QueryCard = ({ title, description, onUseQuery }) => {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
-            <h3 className="query-card-title">{title}</h3>
+            <h3 className="query-card-title" title={title}>{title}</h3>
+
             <p className="query-card-description">{description}</p>
             <div className="query-card-actions">
                 <button
