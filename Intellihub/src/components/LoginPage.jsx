@@ -63,11 +63,6 @@ const Login = ({ setIsAuthenticated }) => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <p
-                            className="reset-password"
-                        >
-                            Reset password
-                        </p>
                         <button type="submit" className="login-button">
                             Submit
                         </button>
