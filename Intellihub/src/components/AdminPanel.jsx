@@ -159,7 +159,6 @@ const AdminPanel = () => {
                                     >
                                         <option value="Admin">Admin</option>
                                         <option value="Knowledge Manager">Knowledge Manager</option>
-                                        <option value="Guest">Guest</option>
                                     </select>
                                 </div>
                                 <div className="form-actions">
